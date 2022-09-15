@@ -1,0 +1,104 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateEmployeeInput {
+  email: String!
+  name: String!
+  position: String
+}
+
+input CreateItemInput {
+  createdBy: String!
+  model: String!
+  name: String!
+  serialNumber: String!
+}
+
+input CreateStoreInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  username: String!
+}
+
+type Employee {
+  _id: ID!
+  assetsInPossession: [Item!]!
+  createdBy: User
+  email: String!
+  name: String!
+  position: String!
+}
+
+input FindItemInput {
+  _id: ID
+  model: String
+  name: String
+  serialNumber: String
+}
+
+input FindUserInput {
+  _id: Int!
+}
+
+type Item {
+  _id: ID!
+  createdBy: User
+  model: String!
+  name: String!
+  serialNumber: String!
+  whereIsIt: Employee
+}
+
+type Mutation {
+  createEmployee(createEmployeeInput: CreateEmployeeInput!): Employee!
+  createItem(input: CreateItemInput!): Item!
+  createStore(createStoreInput: CreateStoreInput!): Store!
+  createUser(input: CreateUserInput!): User!
+  removeStore(id: Int!): Store!
+  updateItem(input: UpdateItemInput!): Item!
+  updateStore(updateStoreInput: UpdateStoreInput!): Store!
+}
+
+type Query {
+  employee(id: Int!): Employee!
+  employees: [Employee!]!
+  item(input: FindItemInput!): Item!
+  items: [Item!]!
+  store(id: Int!): Store!
+  stores: [Store!]!
+  user(input: FindUserInput!): User!
+  users: [User!]!
+}
+
+type Store {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateItemInput {
+  _id: ID
+  createdBy: String
+  model: String
+  name: String
+  serialNumber: String
+}
+
+input UpdateStoreInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+type User {
+  _id: ID!
+  email: String!
+  itemsCreated: [Item!]!
+  password: String!
+  username: String!
+}

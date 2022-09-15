@@ -1,0 +1,38 @@
+.nav {
+  position: sticky;
+  top: 0;
+  color-scheme: light dark;
+  color: #213547;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 8px 0 8px 0;
+}
+
+.nav a {
+  color-scheme: light dark;
+  color: #213547;
+  transition: all 0.15s ease-in-out;
+}
+
+.nav a:hover {
+  text-shadow: 2px 2px 5px #0000004d;
+}
+
+@media (prefers-color-scheme: light) {
+  .nav {
+    color: #ffffffde;
+    background-color: #242424;
+  }
+  .nav a {
+    color: #ffffffde;
+  }
+
+  .nav a:hover {
+    color: #747bff;
+  }
+  .nav button {
+    background-color: #f9f9f9;
+  }
+}
