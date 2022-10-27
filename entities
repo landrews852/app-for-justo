@@ -1,0 +1,27 @@
+Items = [
+  _id,
+  name,
+  model,
+  serialNumber,
+  whereIsIt,
+  history,
+  createdBy, // relation with Users (() => User)
+];
+
+Users = [
+  _id,
+  username,
+  email,
+  password,
+  itemsCreated, // (ELIMINAR) relation with Items (() => [Item])
+];
+
+Employees = [_id, email, name, position, assetsInPossession, createdBy];
+
+Stores = [_id, name, location, history];
+
+History = [_id, type, relationId];
+
+ItemHistory = [];
+
+StoreHistory = [];

@@ -7,7 +7,7 @@ import {useState} from 'react';
 import {
   successMsgCss,
   errorMsgCss,
-  type EmployeeProps,
+  type Item,
 } from '../../../../constant/constant';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
 
@@ -25,9 +25,9 @@ const CREATE_ITEM = gql`
   }
 `;
 
-type NewItem = ItemProps;
+type NewItem = Item;
 
-type NewItemDetails = ItemProps;
+type NewItemDetails = Item;
 
 export default function CreateItem(props: any) {
   const [name, setName] = useState('');

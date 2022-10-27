@@ -3,16 +3,16 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Navbar from './components/navbar/Navbar';
 // Import Sidebar from "./components/sidebar/Sidebar";
 import Home from './pages/home/Home';
-import ItemsList from './pages/items/crud/list/Items';
+import ItemsList from './pages/assets/crud/list/Items';
 import UsersList from './pages/users/crud/list/Users';
 import EmployeeList from './pages/employees/crud/list/Employees';
-import UpdateItem from './pages/items/crud/update/UpdateItems';
+import AssetDetail from './pages/assets/assetDetail/assetDetail';
 
 export default function App() {
   return (
     // <BrowserRouter key={Math.random()}>
     <BrowserRouter>
-      <div className="App h-screen w-screen">
+      <div className="h-screen w-screen mb-20">
         <Navbar />
         {/* <Sidebar /> */}
         <Routes>
@@ -20,7 +20,7 @@ export default function App() {
           <Route path="/users" element={<UsersList />} />
           <Route path="/assets" element={<ItemsList />} />
           <Route path="/trabajadores" element={<EmployeeList />} />
-          <Route path="/home/:id" element={<UpdateItem />} />
+          <Route path="/assets/:_id" element={<AssetDetail />} />
         </Routes>
       </div>
     </BrowserRouter>

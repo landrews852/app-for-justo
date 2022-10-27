@@ -4,6 +4,7 @@ import { Employee } from 'src/employees/entities/employee.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
+// import { History } from 'src/histories/entities/history.entity';
 // import { BaseSchema } from '../common/base.schema';
 
 export type ItemDocument = Item & mongoose.Document;
@@ -11,10 +12,13 @@ export type ItemDocument = Item & mongoose.Document;
 @Schema()
 @ObjectType()
 export class Item {
-  @Field(() => ID)
-  _id: any;
+  // @Field()
+  // readonly _id: mongoose.ObjectId;
 
-  @Prop({ unique: true, required: true })
+  @Field(() => ID)
+  _id: string;
+
+  @Prop({ required: true })
   @Field()
   name: string;
 
@@ -25,33 +29,24 @@ export class Item {
   @Prop({ unique: true, required: true })
   @Field()
   serialNumber: string;
-  typeKey: '$type';
-
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Employee.name })
-  @Field(() => Employee, { nullable: true })
-  whereIsIt: Employee | number;
 
   // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Employee.name })
   // @Field(() => Employee, { nullable: true })
-  // temporaryOwner: Employee | number;
+  // whereIsIt: Employee;
 
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Employee.name })
-  // @Field(() => Employee, { nullable: true })
-  // pastOwners: [Employee] | [number];
-
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Store.name })
-  // @Field(() => Store, { nullable: true })
-  // store?: Store | number;
-
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Store.name })
-  // @Field(() => Store, { nullable: true })
-  // pastStores?: [Store] | [number];
+  // @Prop({
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: History.name,
+  //   default: [],
+  // })
+  // @Field(() => [History], { nullable: true })
+  // history: History[];
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   @Field(() => User, { nullable: true })
-  createdBy: User | number;
+  createdBy: string;
 }
 
 export const ItemSchema = SchemaFactory.createForClass(Item);
 
-ItemSchema.index({ User: 1 });
+// ItemSchema.index({ User: 1 });

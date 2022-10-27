@@ -2,7 +2,7 @@
 import {useQuery, gql} from '@apollo/client';
 import {useState} from 'react';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
-import CreateEmployee from '../../../items/crud/create/CreateItem';
+import CreateEmployee from '../../../assets/crud/create/CreateItem';
 
 type Items = {
   id: number;

@@ -3,9 +3,10 @@
 import {useQuery, gql} from '@apollo/client';
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
-import type {ItemProps} from '../../../../constant/constant';
+import type {Item} from '../../../../constant/constant';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
 import CreateItem from '../create/CreateItem';
+import SearchBar from '../../../../components/searchbar/SearchBar';
 
 type Items = {
   _id: string;
@@ -41,6 +42,7 @@ export default function ItemsList() {
     loading: boolean;
     error?: any;
   };
+
   const {data, loading, error}: ItemsQueryProps = useQuery<ItemsData>(ITEMS);
 
   if (loading) {
@@ -72,17 +74,27 @@ export default function ItemsList() {
 
   return (
     <div className="m-3 items-center justify-center flex flex-col">
+      <SearchBar
+        placeholder="Buscar activos"
+        className="self-end"
+        url="assets"
+      />
+
       <div className="text-center">
         <h1 className="my-10">Items List</h1>
       </div>
+
       <Button {...onClickProps} />
 
-      {disabled ? null : <CreateItem className="m-4 mt-0" />}
+      {disabled ? null : <CreateItem className="m-4 mt-0 w-64" />}
 
       <div className="grid grid-cols-3">
         {data?.items.map((item: Items) => (
           <>
-            <div className="border rounded m-2 p-3" key={item.name}>
+            <div
+              className="flex flex-col justify-between border rounded m-2 p-3"
+              key={item._id}
+            >
               <p className="text-center my-2">
                 <b className="text-sky-500 text-xl">{item.name} </b>
               </p>
@@ -91,7 +103,7 @@ export default function ItemsList() {
                 {item.model}
               </p>
               <p>
-                <b className="text-sky-300">Serial: </b>
+                <b className="text-sky-300">Número de serie: </b>
                 {item.serialNumber}
               </p>
               <p>
@@ -99,7 +111,7 @@ export default function ItemsList() {
                 {item.createdBy.username}
               </p>
               <div className="flex justify-center">
-                <Link to={'/item/' + item._id} className="m-2 mt-4 ">
+                <Link to={'/assets/' + item._id} className="m-2 mt-4">
                   <Button {...editBtnProps} />
                 </Link>
               </div>

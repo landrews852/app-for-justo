@@ -9,14 +9,14 @@ export default function Navbar() {
         <Link to="/">
           <p className="text-xl font-bold">Inicio</p>
         </Link>
-        <Link to="/users">
-          <p className="text-xl font-bold">Usuarios</p>
-        </Link>
         <Link to="/assets">
           <p className="text-xl font-bold">Items</p>
         </Link>
         <Link to="/trabajadores">
           <p className="text-xl font-bold">Trabajadores</p>
+        </Link>
+        <Link to="/users">
+          <p className="text-xl font-bold">Bodegas</p>
         </Link>
       </div>
     </>

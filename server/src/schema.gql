@@ -8,6 +8,11 @@ input CreateEmployeeInput {
   position: String
 }
 
+input CreateHistoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 input CreateItemInput {
   createdBy: String!
   model: String!
@@ -35,15 +40,35 @@ type Employee {
   position: String!
 }
 
+input FindEmployeeInput {
+  _id: Int
+  email: String
+  name: String
+  position: String
+}
+
+input FindHistoryInput {
+  _id: ID
+}
+
 input FindItemInput {
   _id: ID
-  model: String
-  name: String
   serialNumber: String
+}
+
+input FindStoreInput {
+  _id: Int
+  name: String
 }
 
 input FindUserInput {
   _id: Int!
+}
+
+type History {
+  _id: ID!
+  relationID: String!
+  type: String!
 }
 
 type Item {
@@ -52,33 +77,43 @@ type Item {
   model: String!
   name: String!
   serialNumber: String!
-  whereIsIt: Employee
 }
 
 type Mutation {
   createEmployee(createEmployeeInput: CreateEmployeeInput!): Employee!
+  createHistory(input: CreateHistoryInput!): History!
   createItem(input: CreateItemInput!): Item!
-  createStore(createStoreInput: CreateStoreInput!): Store!
+  createStore(input: CreateStoreInput!): Store!
   createUser(input: CreateUserInput!): User!
-  removeStore(id: Int!): Store!
+  updateHistory(input: UpdateHistoryInput!): History!
   updateItem(input: UpdateItemInput!): Item!
-  updateStore(updateStoreInput: UpdateStoreInput!): Store!
+  updateStore(input: UpdateStoreInput!): Store!
 }
 
 type Query {
-  employee(id: Int!): Employee!
+  employee(input: FindEmployeeInput!): Employee!
   employees: [Employee!]!
+  history(input: FindHistoryInput!): History!
   item(input: FindItemInput!): Item!
   items: [Item!]!
-  store(id: Int!): Store!
+  store(input: FindStoreInput!): Store!
   stores: [Store!]!
   user(input: FindUserInput!): User!
   users: [User!]!
 }
 
 type Store {
+  _id: ID!
+  history: History
+  location: String!
+  name: String!
+}
+
+input UpdateHistoryInput {
+  _id: String
+
   """Example field (placeholder)"""
-  exampleField: Int!
+  exampleField: Int
 }
 
 input UpdateItemInput {
@@ -90,9 +125,10 @@ input UpdateItemInput {
 }
 
 input UpdateStoreInput {
+  _id: Int!
+
   """Example field (placeholder)"""
   exampleField: Int
-  id: Int!
 }
 
 type User {

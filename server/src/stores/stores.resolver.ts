@@ -3,33 +3,39 @@ import { StoresService } from './stores.service';
 import { Store } from './entities/store.entity';
 import { CreateStoreInput } from './dto/create-store.input';
 import { UpdateStoreInput } from './dto/update-store.input';
+import { FindStoreInput } from './dto/find-store.input';
 
 @Resolver(() => Store)
 export class StoresResolver {
   constructor(private readonly storesService: StoresService) {}
 
   @Mutation(() => Store)
-  createStore(@Args('createStoreInput') createStoreInput: CreateStoreInput) {
-    return this.storesService.create(createStoreInput);
+  async createStore(@Args('input') store: CreateStoreInput) {
+    console.log(store);
+    return this.storesService.createStore(store);
+  }
+
+  @Mutation(() => Store)
+  async updateStore(@Args('input') store: UpdateStoreInput) {
+    console.log(store);
+    return this.storesService.update(store._id, store);
   }
 
   @Query(() => [Store], { name: 'stores' })
-  findAll() {
+  async findAll() {
     return this.storesService.findAll();
   }
 
-  @Query(() => Store, { name: 'store' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.storesService.findOne(id);
-  }
-
-  @Mutation(() => Store)
-  updateStore(@Args('updateStoreInput') updateStoreInput: UpdateStoreInput) {
-    return this.storesService.update(updateStoreInput.id, updateStoreInput);
-  }
-
-  @Mutation(() => Store)
-  removeStore(@Args('id', { type: () => Int }) id: number) {
-    return this.storesService.remove(id);
+  @Query(() => Store)
+  async store(@Args('input') input: FindStoreInput) {
+    if (input._id) {
+      return this.storesService.findById(input._id);
+    }
+    if (input.name) {
+      return this.storesService.findOne(input.name);
+    } else
+      return Error(
+        'Es necesario el "Nombre" o el "ID" para realizar la búsqueda',
+      );
   }
 }

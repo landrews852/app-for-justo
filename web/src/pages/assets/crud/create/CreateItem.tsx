@@ -1,15 +1,17 @@
+/* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/indent */
-/* eslint-disable arrow-parens */
+
 // Import {validate} from 'graphql';
 import {gql, useMutation} from '@apollo/client';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   successMsgCss,
   errorMsgCss,
-  type ItemProps,
+  type Item,
 } from '../../../../constant/constant';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
+import FindItemBySerialNumber from '../findOne/FindItemBySerialNumber';
 
 const CREATE_ITEM = gql`
   mutation createItem($input: CreateItemInput!) {
@@ -25,10 +27,31 @@ const CREATE_ITEM = gql`
   }
 `;
 
-type NewItem = ItemProps;
-type NewItemDetails = ItemProps;
+const ITEMS = gql`
+  {
+    items {
+      _id
+      name
+      model
+      serialNumber
+      createdBy {
+        username
+      }
+    }
+  }
+`;
+
+type NewItem = Item;
+type NewItemDetails = Item;
+type AssetProps = {
+  _id: string;
+  name: string;
+  model: string;
+  serialNumber: string;
+};
 
 export default function CreateItem(props: any) {
+  const [problem, setProblem] = useState('');
   const [name, setName] = useState('');
   const [model, setModel] = useState('');
   const [serialNumber, setSerialNumber] = useState('');
@@ -46,14 +69,26 @@ export default function CreateItem(props: any) {
         createdBy,
       },
     },
+    refetchQueries: [{query: ITEMS}, 'Items'],
   });
+
+  const found: any = FindItemBySerialNumber(serialNumber);
 
   const onClickProps: BtnProps = {
     async onClick(e: Event) {
       e.preventDefault();
-      console.log(data?.createItem);
+      console.log(serialNumber);
+
       if (name && model && serialNumber && createdBy) {
-        await createItem();
+        if (found) {
+          setProblem('El número de serie ya existe.');
+        } else {
+          setProblem('');
+          console.log('create item', data?.createItem);
+          await createItem();
+        }
+      } else {
+        setProblem('Falta información');
       }
     },
     types: 'submit',
@@ -61,11 +96,28 @@ export default function CreateItem(props: any) {
     className: 'm-auto',
   };
 
+  useEffect(() => {
+    if (!name || !model || !serialNumber || !createdBy) {
+      setProblem('Por favor completa el formulario');
+    } else setProblem('');
+  }, [name, model, serialNumber, createdBy]);
   //    - name && model && serialNumber && createdBy._id
+
+  const msg = () => {
+    if (error) {
+      <p className={errorMsgCss}>Oh no! {error}</p>;
+    }
+
+    if (problem) {
+      <p className={errorMsgCss}>{problem}</p>;
+    }
+  };
 
   return (
     <div className={props.className}>
-      {error ? <p className={errorMsgCss}>Oh no! {error}</p> : null}
+      {/* {error ? <p className={errorMsgCss}>Oh no! {error}</p> : null} */}
+      {/* {problem ? <p className={errorMsgCss}>{problem}</p> : null} */}
+      {msg}
       {data?.createItem ? <p className={successMsgCss}>Saved!</p> : null}
       <form className="flex flex-col">
         <input
@@ -112,14 +164,6 @@ export default function CreateItem(props: any) {
             setCreatedBy(e.target.value);
           }}
         />
-        {/* <button
-          //   OnClick={(e) =>
-          //     name && model && serialNumber && createdBy._id && saveItem()
-          //   }
-          type="submit"
-        >
-          Crear
-        </button> */}
         <Button {...onClickProps} />
       </form>
     </div>

@@ -1,16 +1,19 @@
 import { Module } from '@nestjs/common';
-import { EmployeesService } from './employees.service';
-import { EmployeesResolver } from './employees.resolver';
+import { HistoryService } from './history.service';
+import { HistoryResolver } from './history.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Item, ItemSchema } from 'src/items/entities/item.entity';
 import { User, UserSchema } from 'src/users/entities/user.entity';
-import { Employee, EmployeeSchema } from './entities/employee.entity';
+import {
+  Employee,
+  EmployeeSchema,
+} from 'src/employees/entities/employee.entity';
+import { History, HistorySchema } from './entities/history.entity';
+import { Store, StoreSchema } from 'src/stores/entities/store.entity';
 import { ItemsService } from 'src/items/items.service';
+import { EmployeesService } from 'src/employees/employees.service';
 import { UsersService } from 'src/users/users.service';
 import { StoresService } from 'src/stores/stores.service';
-import { HistoryService } from 'src/histories/history.service';
-import { History, HistorySchema } from 'src/histories/entities/history.entity';
-import { Store, StoreSchema } from 'src/stores/entities/store.entity';
 
 @Module({
   imports: [
@@ -23,12 +26,12 @@ import { Store, StoreSchema } from 'src/stores/entities/store.entity';
     ]),
   ],
   providers: [
-    EmployeesResolver,
-    EmployeesService,
+    HistoryResolver,
+    HistoryService,
     ItemsService,
+    EmployeesService,
     UsersService,
     StoresService,
-    HistoryService,
   ],
 })
-export class EmployeesModule {}
+export class HistoryModule {}

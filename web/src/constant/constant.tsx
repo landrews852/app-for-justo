@@ -1,12 +1,19 @@
-export type ItemProps = {
+export type Item = {
   _id?: string;
   name: string;
   model: string;
   serialNumber: string;
-  createdBy: string;
+  createdBy?: string;
 };
 
-export type EmployeeProps = {
+export type User = {
+  _id: string;
+  username: string;
+  email: string;
+  itemsCreated?: Item[];
+};
+
+export type Employee = {
   _id?: string;
   name: string;
   model: string;
