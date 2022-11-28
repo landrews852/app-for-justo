@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {useQuery, gql} from '@apollo/client';
-import type {Item} from '../../../../constant/constant';
+import type {Asset} from '../../../../constant/constant';
 
 const FIND_ONE_ITEM = gql`
   query item($input: FindItemInput!) {
@@ -16,7 +16,7 @@ const FIND_ONE_ITEM = gql`
 
 type ID = {_id?: string};
 type ItemData = {
-  item: Item;
+  item: Asset;
 };
 
 export default function FindItemByID(props: string) {

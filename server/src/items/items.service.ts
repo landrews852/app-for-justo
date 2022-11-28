@@ -14,10 +14,17 @@ export class ItemsService {
   }
 
   async update(item: UpdateItemInput) {
-    const id = item._id;
-    console.log('item', item);
-
-    return await this.itemModel.findOneAndUpdate({ id }, { ...item });
+    return await this.itemModel.findByIdAndUpdate(
+      item._id,
+      {
+        $set: {
+          name: item.name,
+          model: item.model,
+          serialNumber: item.serialNumber,
+        },
+      },
+      { new: true },
+    );
   }
 
   async findAll() {

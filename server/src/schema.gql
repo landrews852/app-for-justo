@@ -117,7 +117,7 @@ input UpdateHistoryInput {
 }
 
 input UpdateItemInput {
-  _id: ID
+  _id: ID!
   createdBy: String
   model: String
   name: String

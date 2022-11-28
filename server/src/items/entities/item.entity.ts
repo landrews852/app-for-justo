@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Employee } from 'src/employees/entities/employee.entity';
+// import { Employee } from 'src/employees/entities/employee.entity';
 // import { Store } from 'src/stores/entities/store.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
@@ -49,4 +49,4 @@ export class Item {
 
 export const ItemSchema = SchemaFactory.createForClass(Item);
 
-// ItemSchema.index({ User: 1 });
+ItemSchema.index({ User: 1 });

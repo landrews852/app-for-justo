@@ -1,16 +1,16 @@
-export type Item = {
+export type Asset = {
   _id?: string;
-  name: string;
-  model: string;
-  serialNumber: string;
-  createdBy?: string;
+  name?: string;
+  model?: string;
+  serialNumber?: string;
+  // createdBy?: string;
 };
 
 export type User = {
   _id: string;
   username: string;
   email: string;
-  itemsCreated?: Item[];
+  itemsCreated?: Asset[];
 };
 
 export type Employee = {

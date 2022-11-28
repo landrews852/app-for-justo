@@ -1,71 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/indent */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable new-cap */
-import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import type {BtnProps} from '../../../components/buttons/Button';
-import Button from '../../../components/buttons/Button';
-import {
-  errorMsgCss,
-  type Asset,
-  successMsgCss,
-} from '../../../constant/constant';
 import FindItemByID from '../crud/findOne/FindItemByID';
-// import updateItem from '../items/crud/update/UpdateItems';
-import {useMutation, gql} from '@apollo/client';
-import FindItemBySerialNumber from '../crud/findOne/FindItemBySerialNumber';
-
-const UPDATE_ITEM = gql`
-  mutation updateItem($input: UpdateItemInput!) {
-    updateItem(input: $input) {
-      name
-      model
-      serialNumber
-    }
-  }
-`;
-
-type ItemProps = {
-  _id: string;
-  name?: string;
-  model?: string;
-  serialNumber?: string;
-};
-
-type Item = ItemProps;
-type UpdatedItem = ItemProps;
 
 export default function AssetDetail() {
   const {_id} = useParams();
 
-  const assetData: any = FindItemByID(_id);
+  const assetData = FindItemByID(_id);
 
-  console.log(assetData);
-
-  const [name, setName] = useState(assetData.name);
-  const [model, setModel] = useState(assetData.model);
-  const [serialNumber, setSerialNumber] = useState(assetData.serialNumber);
+  const [name, setName] = useState('');
+  const [model, setModel] = useState('');
+  const [serialNumber, setSerialNumber] = useState('');
   const [problem, setProblem] = useState('');
-
-  // console.log(_id, assetData);
-  // console.log(typeof assetData);
-
-  const [updateItem, {error, data}] = useMutation<
-    {updateItem: Item},
-    {input: UpdatedItem}
-  >(UPDATE_ITEM, {
-    variables: {
-      input: {
-        _id,
-        name,
-        model,
-        serialNumber,
-      },
-    },
-  });
-
-  const found: any = FindItemBySerialNumber(serialNumber);
 
   const btnProps: BtnProps = {
     async onClick(e: Event) {
@@ -73,11 +17,6 @@ export default function AssetDetail() {
       if (error) {
         console.log(error);
         return;
-      }
-
-      if (found) {
-        setProblem('El número de serie ya existe.');
-        return false;
       }
 
       if (name || model || serialNumber) {

@@ -12,8 +12,8 @@ export default function Navbar() {
         <Link to="/assets">
           <p className="text-xl font-bold">Items</p>
         </Link>
-        <Link to="/trabajadores">
-          <p className="text-xl font-bold">Trabajadores</p>
+        <Link to="/empleados">
+          <p className="text-xl font-bold">Empleados</p>
         </Link>
         <Link to="/users">
           <p className="text-xl font-bold">Bodegas</p>

@@ -8,7 +8,7 @@ import {useEffect, useState} from 'react';
 import {
   successMsgCss,
   errorMsgCss,
-  type Item,
+  type Asset,
 } from '../../../../constant/constant';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
 import FindItemBySerialNumber from '../findOne/FindItemBySerialNumber';
@@ -41,8 +41,8 @@ const ITEMS = gql`
   }
 `;
 
-type NewItem = Item;
-type NewItemDetails = Item;
+type NewItem = Asset;
+type NewItemDetails = Asset;
 type AssetProps = {
   _id: string;
   name: string;
@@ -99,25 +99,27 @@ export default function CreateItem(props: any) {
   useEffect(() => {
     if (!name || !model || !serialNumber || !createdBy) {
       setProblem('Por favor completa el formulario');
-    } else setProblem('');
+    } else {
+      setProblem('');
+    }
   }, [name, model, serialNumber, createdBy]);
   //    - name && model && serialNumber && createdBy._id
 
-  const msg = () => {
-    if (error) {
-      <p className={errorMsgCss}>Oh no! {error}</p>;
-    }
+  // const msg = () => {
+  //   if (error) {
+  //     <p className={errorMsgCss}>Oh no! {error}</p>;
+  //   }
 
-    if (problem) {
-      <p className={errorMsgCss}>{problem}</p>;
-    }
-  };
+  //   if (problem) {
+  //     <p className={errorMsgCss}>{problem}</p>;
+  //   }
+  // };
 
   return (
     <div className={props.className}>
-      {/* {error ? <p className={errorMsgCss}>Oh no! {error}</p> : null} */}
-      {/* {problem ? <p className={errorMsgCss}>{problem}</p> : null} */}
-      {msg}
+      {error ? <p className={errorMsgCss}>Oh no! {error}</p> : null}
+      {problem ? <p className={errorMsgCss}>{problem}</p> : null}
+      {/* {msg} */}
       {data?.createItem ? <p className={successMsgCss}>Saved!</p> : null}
       <form className="flex flex-col">
         <input
