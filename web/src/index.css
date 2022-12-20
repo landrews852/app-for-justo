@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Paleta de colores usados */
+
 /* PaletaDeColores {
 color: 
 #ffffffde
@@ -27,6 +29,10 @@ color:
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+#root {
+  min-height: 100vh;
 }
 
 body {

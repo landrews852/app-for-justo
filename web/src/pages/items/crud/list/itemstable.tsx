@@ -127,7 +127,7 @@ export default function ItemsTable() {
                 <TableCell>{item.serialNumber}</TableCell>
                 <TableCell>{item.createdBy.username}</TableCell>
                 <TableCell>
-                  <Link to={'/assets/' + item._id} className="m-2 mt-4">
+                  <Link to={'/articulos/' + item._id} className="m-2 mt-4">
                     <Button {...editBtnProps} />
                   </Link>
                 </TableCell>

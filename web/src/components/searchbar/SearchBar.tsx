@@ -2,8 +2,8 @@
 import {useState} from 'react';
 import {Navigate} from 'react-router-dom';
 import {type Asset} from '../../constant/constant';
-import FindItemBySerialNumber from '../../pages/assets/crud/findOne/FindItemBySerialNumber';
-import Button, {type BtnProps} from '../buttons/Button';
+import FindItemBySerialNumber from '../../pages/items/crud/findOne/FindItemBySerialNumber';
+import {Button, type BtnProps} from '../buttons/Button';
 
 type Props = {
   url: string;
@@ -27,7 +27,9 @@ export default function SearchBar(props: Props) {
         setNavigate(true);
       } else {
         setNavigate(false);
-        setProblem('No se ha encontrado nada :(');
+        setProblem(
+          'No se encontró nada, intenta con el número de serie o ID del artículo.',
+        );
       }
     },
     text: 'Buscar',
@@ -36,7 +38,7 @@ export default function SearchBar(props: Props) {
 
   return (
     <div className={props.className}>
-      <form>
+      <form className="self-right">
         <input
           type="text"
           placeholder={props.placeholder}

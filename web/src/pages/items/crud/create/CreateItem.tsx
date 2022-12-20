@@ -20,6 +20,7 @@ const CREATE_ITEM = gql`
       name
       model
       serialNumber
+      whereIsIt
       createdBy {
         _id
       }
@@ -34,6 +35,7 @@ const ITEMS = gql`
       name
       model
       serialNumber
+      whereIsIt
       createdBy {
         username
       }
@@ -43,12 +45,6 @@ const ITEMS = gql`
 
 type NewItem = Asset;
 type NewItemDetails = Asset;
-type AssetProps = {
-  _id: string;
-  name: string;
-  model: string;
-  serialNumber: string;
-};
 
 export default function CreateItem(props: any) {
   const [problem, setProblem] = useState('');
@@ -56,6 +52,7 @@ export default function CreateItem(props: any) {
   const [model, setModel] = useState('');
   const [serialNumber, setSerialNumber] = useState('');
   const [createdBy, setCreatedBy] = useState('');
+  const [whereIsIt, setWhereIsIt] = useState('');
 
   const [createItem, {error, data}] = useMutation<
     {createItem: NewItem},
@@ -66,6 +63,7 @@ export default function CreateItem(props: any) {
         name,
         model,
         serialNumber,
+        whereIsIt,
         createdBy,
       },
     },
@@ -86,6 +84,7 @@ export default function CreateItem(props: any) {
           setProblem('');
           console.log('create item', data?.createItem);
           await createItem();
+          // window.location.reload();
         }
       } else {
         setProblem('Falta información');
@@ -122,50 +121,73 @@ export default function CreateItem(props: any) {
       {/* {msg} */}
       {data?.createItem ? <p className={successMsgCss}>Saved!</p> : null}
       <form className="flex flex-col">
+        <div className="flex">
+          <span className="self-center">*</span>
+          <input
+            className="m-2 p-1 rounded w-full"
+            type="text"
+            name="name"
+            placeholder="Nombre"
+            autoComplete="off"
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+        </div>
+        <div className="flex">
+          <span className="self-center">*</span>
+          <input
+            className="m-2 p-1 rounded w-full"
+            type="text"
+            name="model"
+            placeholder="Modelo"
+            autoComplete="off"
+            value={model}
+            onChange={(e) => {
+              setModel(e.target.value);
+            }}
+          />
+        </div>
+        <div className="flex">
+          <span className="self-center">*</span>
+          <input
+            className="m-2 p-1 rounded w-full"
+            type="text"
+            name="serialNumber"
+            placeholder="Numero de serie"
+            autoComplete="off"
+            value={serialNumber}
+            onChange={(e) => {
+              setSerialNumber(e.target.value);
+            }}
+          />
+        </div>
         <input
           className="m-2 p-1 rounded"
           type="text"
-          name="name"
-          placeholder="Nombre"
-          autoComplete="off"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        />
-        <input
-          className="m-2 p-1 rounded"
-          type="text"
-          name="model"
-          placeholder="Modelo"
-          autoComplete="off"
-          value={model}
-          onChange={(e) => {
-            setModel(e.target.value);
-          }}
-        />
-        <input
-          className="m-2 p-1 rounded"
-          type="text"
-          name="serialNumber"
-          placeholder="Numero de serie"
-          autoComplete="off"
-          value={serialNumber}
-          onChange={(e) => {
-            setSerialNumber(e.target.value);
-          }}
-        />
-        <input
-          className="m-2 p-1 rounded"
-          type="text"
-          name="createdBy"
-          placeholder="Creado por"
+          name="whereIsIt"
+          placeholder="¿Dónde se encuentra?"
           autoComplete="off"
           value={createdBy}
           onChange={(e) => {
             setCreatedBy(e.target.value);
           }}
         />
+        <div className="flex">
+          <span className="self-center">*</span>
+          <input
+            className="m-2 p-1 rounded w-full"
+            type="text"
+            name="createdBy"
+            placeholder="Creado por"
+            autoComplete="off"
+            value={createdBy}
+            onChange={(e) => {
+              setCreatedBy(e.target.value);
+            }}
+          />
+        </div>
         <Button {...onClickProps} />
       </form>
     </div>

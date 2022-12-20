@@ -3,18 +3,17 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable new-cap */
 import {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import type {BtnProps} from '../../../components/buttons/Button';
-import Button from '../../../components/buttons/Button';
+import {useNavigate, useParams} from 'react-router-dom';
+import {Button, type BtnProps} from '../../../../components/buttons/Button';
 import {
   errorMsgCss,
   type Asset,
   successMsgCss,
-} from '../../../constant/constant';
-import FindItemByID from '../crud/findOne/FindItemByID';
+} from '../../../../constant/constant';
+import FindItemByID from '../findOne/FindItemByID';
 // import updateItem from '../items/crud/update/UpdateItems';
 import {useMutation, gql} from '@apollo/client';
-import FindItemBySerialNumber from '../crud/findOne/FindItemBySerialNumber';
+import FindItemBySerialNumber from '../findOne/FindItemBySerialNumber';
 
 const UPDATE_ITEM = gql`
   mutation updateItem($input: UpdateItemInput!) {
@@ -22,6 +21,21 @@ const UPDATE_ITEM = gql`
       name
       model
       serialNumber
+    }
+  }
+`;
+
+const ITEMS = gql`
+  {
+    items {
+      _id
+      name
+      model
+      serialNumber
+      whereIsIt
+      createdBy {
+        username
+      }
     }
   }
 `;
@@ -36,7 +50,8 @@ type ItemProps = {
 type Item = ItemProps;
 type UpdatedItem = ItemProps;
 
-export default function AssetDetail() {
+export default function ItemDetailEdit() {
+  const navigate = useNavigate();
   const {_id} = useParams();
 
   const assetData: any = FindItemByID(_id);
@@ -63,11 +78,12 @@ export default function AssetDetail() {
         serialNumber,
       },
     },
+    refetchQueries: [{query: ITEMS}, 'Items'],
   });
 
   const found: any = FindItemBySerialNumber(serialNumber);
 
-  const btnProps: BtnProps = {
+  const editBtnProps: BtnProps = {
     async onClick(e: Event) {
       e.preventDefault();
       if (error) {
@@ -76,20 +92,23 @@ export default function AssetDetail() {
       }
 
       if (found) {
-        setProblem('El número de serie ya existe.');
-        return false;
+        if (found.serialNumber === assetData.serialNumber) {
+          setSerialNumber('');
+        } else {
+          setProblem('El número de serie ya existe.');
+          return false;
+        }
       }
 
       if (name || model || serialNumber) {
         setProblem('');
         console.log('update?', _id, name, model, serialNumber);
-        // console.log(updateData);
         await updateItem();
       } else {
         setProblem('Se requiere llenar al menos un campo del formulario.');
       }
     },
-    className: 'mt-8 font-bold',
+    className: 'm-2 mt-8 font-bold',
     text: 'Guardar',
   };
 
@@ -104,7 +123,14 @@ export default function AssetDetail() {
       <div className="m-12 flex flex-col text-center justify-center w-full max-w-xl">
         <p className="my-4 font-bold text-xl">{assetData?.name}</p>
         {problem ? <p className={errorMsgCss}>{problem}</p> : null}
-        {data?.updateItem ? <p className={successMsgCss}>Saved!</p> : null}
+        {data?.updateItem ? (
+          <p className={successMsgCss}>
+            <b>Articulo guardado!</b> <br />
+            <span className="text-sm">
+              {'(Recargar página para ver los cambios.)'}
+            </span>
+          </p>
+        ) : null}
 
         <p className="mt-4">Nombre</p>
         <input
@@ -142,8 +168,16 @@ export default function AssetDetail() {
             setSerialNumber(e.target.value);
           }}
         />
-
-        <Button {...btnProps} />
+        <div className="flex justify-center">
+          <Button
+            variant="goBack"
+            className="m-2 mt-8 h-12"
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
+          <Button {...editBtnProps} />
+        </div>
       </div>
     </div>
   );

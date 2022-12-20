@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/indent */
 import {useState} from 'react';
 import {useQuery, gql} from '@apollo/client';
-import Button, {type BtnProps} from '../../../../components/buttons/Button';
-import CreateItem from '../../../assets/crud/create/CreateItem';
+import {Button, type BtnProps} from '../../../../components/buttons/Button';
+import CreateItem from '../../../items/crud/create/CreateItem';
 import type {Asset, User} from '../../../../constant/constant';
 
 const USERS = gql`

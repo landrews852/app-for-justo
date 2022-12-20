@@ -31,13 +31,25 @@ input CreateUserInput {
   username: String!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Employee {
   _id: ID!
-  assetsInPossession: [Item!]!
   createdBy: User
   email: String!
+  employeeHistory: [EmployeeHistory!]!
+  itemsInPossession: [Item!]!
   name: String!
   position: String!
+}
+
+type EmployeeHistory {
+  enter: DateTime!
+  itemName: String!
+  out: DateTime!
 }
 
 input FindEmployeeInput {
@@ -74,9 +86,17 @@ type History {
 type Item {
   _id: ID!
   createdBy: User
+  itemHistory: [ItemHistory!]!
   model: String!
   name: String!
   serialNumber: String!
+  whereIsIt: Employee
+}
+
+type ItemHistory {
+  enter: DateTime!
+  out: DateTime!
+  whereId: String!
 }
 
 type Mutation {

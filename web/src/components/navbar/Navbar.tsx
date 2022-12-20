@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom';
-import styles from './styles.module.css';
+import styles from './Navbar.module.css';
 
 export default function Navbar() {
   return (
@@ -9,8 +9,8 @@ export default function Navbar() {
         <Link to="/">
           <p className="text-xl font-bold">Inicio</p>
         </Link>
-        <Link to="/assets">
-          <p className="text-xl font-bold">Items</p>
+        <Link to="/articulos">
+          <p className="text-xl font-bold">Artículos</p>
         </Link>
         <Link to="/empleados">
           <p className="text-xl font-bold">Empleados</p>
