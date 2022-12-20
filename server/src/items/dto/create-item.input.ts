@@ -11,11 +11,8 @@ export class CreateItemInput {
   @Field()
   serialNumber: string;
 
-  // @Field({ nullable: true })
-  // temporaryOwner: string;
-
-  // @Field(() => Int, { nullable: true })
-  // pastOwners: number;
+  // @Field()
+  // whereIsIt?: string;
 
   @Field()
   createdBy: string;

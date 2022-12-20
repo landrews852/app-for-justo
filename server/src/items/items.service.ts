@@ -1,24 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import items from 'src/data/items';
 import { CreateItemInput } from './dto/create-item.input';
 import { UpdateItemInput } from './dto/update-item.input';
 import { Item, ItemDocument } from './entities/item.entity';
 
 @Injectable()
 export class ItemsService {
-  items: Partial<Item>[];
-  constructor(@InjectModel(Item.name) private itemModel: Model<ItemDocument>) {
-    this.items = items;
-  }
+  constructor(@InjectModel(Item.name) private itemModel: Model<ItemDocument>) {}
 
   async create(item: CreateItemInput) {
     return await this.itemModel.create(item);
   }
 
-  async update(_id: string, item: UpdateItemInput) {
-    return await this.itemModel.updateOne(item);
+  async update(item: UpdateItemInput) {
+    return await this.itemModel.findByIdAndUpdate(
+      item._id,
+      {
+        $set: {
+          name: item.name,
+          model: item.model,
+          serialNumber: item.serialNumber,
+        },
+      },
+      { new: true },
+    );
   }
 
   async findAll() {

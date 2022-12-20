@@ -30,18 +30,13 @@ export class ItemsResolver {
   @Mutation(() => Item)
   async updateItem(@Args('input') item: UpdateItemInput) {
     console.log(item);
-    return this.itemsService.update(item._id, item);
+    return this.itemsService.update(item);
   }
 
   @Query(() => [Item], { name: 'items' })
   async findAll() {
     return this.itemsService.findAll();
   }
-
-  // @Query(() => Item, { name: 'item' })
-  // async findOne(@Args('_id', { type: () => Int }) _id: number) {
-  //   return this.itemsService.findById(_id);
-  // }
 
   @Query(() => Item)
   async item(@Args('input') input: FindItemInput) {

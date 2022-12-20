@@ -9,7 +9,7 @@ export type UserDocument = User & mongoose.Document;
 @ObjectType()
 export class User {
   @Field(() => ID)
-  _id: number;
+  _id: any;
 
   @Prop({ required: true })
   @Field()
@@ -24,7 +24,7 @@ export class User {
   @Field()
   password: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Item.name })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Item.name, default: [] })
   @Field(() => [Item])
   itemsCreated?: Item[];
 }

@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/indent */
 import {useState} from 'react';
 import {useQuery, gql} from '@apollo/client';
-import Button from '../../../../components/buttons/Button';
+import {Button, type BtnProps} from '../../../../components/buttons/Button';
+import CreateItem from '../../../items/crud/create/CreateItem';
+import type {Asset, User} from '../../../../constant/constant';
 
 const USERS = gql`
   {
@@ -17,15 +20,34 @@ const USERS = gql`
 `;
 
 export default function UsersList() {
-  const {data, loading, error} = useQuery(USERS);
   const [disabled, setDisabled] = useState(true);
 
-  if (loading) return <p>Loading...;</p>;
-  if (error) return <pre>{error.message}</pre>;
-
-  const createItem = () => {
-    console.log('asd');
+  type Users = {
+    users: [User];
   };
+
+  type UsersQuery = {
+    data?: Users;
+    loading: boolean;
+    error?: any;
+  };
+
+  const {data, loading, error}: UsersQuery = useQuery(USERS);
+
+  console.log(typeof data);
+  console.log(data);
+
+  if (loading) {
+    return <p>Loading...;</p>;
+  }
+
+  if (error) {
+    return <pre>{error.message}</pre>;
+  }
+
+  // const createItem = () => {
+  //   console.log('asd');
+  // };
 
   const onClickProps: BtnProps = {
     onClick: disabled
@@ -49,14 +71,16 @@ export default function UsersList() {
       {disabled ? null : <CreateItem className="m-4 mt-0" />}
 
       <div className="grid grid-cols-3">
-        {data?.users.map((user: any) => (
+        {data?.users.map((user: User) => (
           <>
             <div className="border rounded m-2 p-3">
               <p className="text-center my-2">
-                <b className="text-sky-500 text-xl">{user.username} </b>
+                <b className="text-sky-500 text-xl whitespace-pre-wrap">
+                  {user.username}{' '}
+                </b>
               </p>
-              <p>
-                <b className="text-sky-300">ID: </b>
+              <p className="whitespace-pre-line">
+                <b className="text-sky-300 ">ID: </b>
                 {user._id}
               </p>
               <p>
@@ -70,7 +94,7 @@ export default function UsersList() {
               <p>
                 <b className="text-sky-300">Items creados: </b>
               </p>
-              {user.itemsCreated.map((item: any) => (
+              {user.itemsCreated?.map((item: Asset) => (
                 <p key={item._id}> {item.name + ` (${item.serialNumber})`}</p>
               ))}
             </div>

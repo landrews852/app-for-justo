@@ -1,10 +1,22 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Employee } from 'src/employees/entities/employee.entity';
-// import { Store } from 'src/stores/entities/store.entity';
-import { User } from 'src/users/entities/user.entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-// import { BaseSchema } from '../common/base.schema';
+// import { ItemHistory } from './types';
+import { Employee } from 'src/employees/entities/employee.entity';
+import { User } from 'src/users/entities/user.entity';
+// import { Store } from 'src/stores/entities/store.entity';
+
+@ObjectType()
+export class ItemHistory {
+  @Field()
+  whereId: string;
+
+  @Field()
+  enter: Date;
+
+  @Field()
+  out: Date;
+}
 
 export type ItemDocument = Item & mongoose.Document;
 
@@ -12,9 +24,9 @@ export type ItemDocument = Item & mongoose.Document;
 @ObjectType()
 export class Item {
   @Field(() => ID)
-  _id: any;
+  _id: string;
 
-  @Prop({ unique: true, required: true })
+  @Prop({ required: true })
   @Field()
   name: string;
 
@@ -25,33 +37,25 @@ export class Item {
   @Prop({ unique: true, required: true })
   @Field()
   serialNumber: string;
-  typeKey: '$type';
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Employee.name })
   @Field(() => Employee, { nullable: true })
-  whereIsIt: Employee | number;
+  whereIsIt: Employee;
 
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Employee.name })
-  // @Field(() => Employee, { nullable: true })
-  // temporaryOwner: Employee | number;
-
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Employee.name })
-  // @Field(() => Employee, { nullable: true })
-  // pastOwners: [Employee] | [number];
-
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Store.name })
-  // @Field(() => Store, { nullable: true })
-  // store?: Store | number;
-
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Store.name })
-  // @Field(() => Store, { nullable: true })
-  // pastStores?: [Store] | [number];
+  @Prop({
+    // type: ItemHistory,
+    // ref: 'ItemHistory',
+    default: [],
+  })
+  @Field(() => [ItemHistory])
+  itemHistory: ItemHistory[];
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   @Field(() => User, { nullable: true })
-  createdBy: User | number;
+  createdBy: string;
 }
 
 export const ItemSchema = SchemaFactory.createForClass(Item);
 
+// ItemSchema.index({ User: 1, ItemHistory: 1 });
 ItemSchema.index({ User: 1 });

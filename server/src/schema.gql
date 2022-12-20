@@ -8,6 +8,11 @@ input CreateEmployeeInput {
   position: String
 }
 
+input CreateHistoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 input CreateItemInput {
   createdBy: String!
   model: String!
@@ -26,63 +31,113 @@ input CreateUserInput {
   username: String!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Employee {
   _id: ID!
-  assetsInPossession: [Item!]!
   createdBy: User
   email: String!
+  employeeHistory: [EmployeeHistory!]!
+  itemsInPossession: [Item!]!
   name: String!
   position: String!
 }
 
+type EmployeeHistory {
+  enter: DateTime!
+  itemName: String!
+  out: DateTime!
+}
+
+input FindEmployeeInput {
+  _id: Int
+  email: String
+  name: String
+  position: String
+}
+
+input FindHistoryInput {
+  _id: ID
+}
+
 input FindItemInput {
   _id: ID
-  model: String
-  name: String
   serialNumber: String
+}
+
+input FindStoreInput {
+  _id: Int
+  name: String
 }
 
 input FindUserInput {
   _id: Int!
 }
 
+type History {
+  _id: ID!
+  relationID: String!
+  type: String!
+}
+
 type Item {
   _id: ID!
   createdBy: User
+  itemHistory: [ItemHistory!]!
   model: String!
   name: String!
   serialNumber: String!
   whereIsIt: Employee
 }
 
+type ItemHistory {
+  enter: DateTime!
+  out: DateTime!
+  whereId: String!
+}
+
 type Mutation {
   createEmployee(createEmployeeInput: CreateEmployeeInput!): Employee!
+  createHistory(input: CreateHistoryInput!): History!
   createItem(input: CreateItemInput!): Item!
-  createStore(createStoreInput: CreateStoreInput!): Store!
+  createStore(input: CreateStoreInput!): Store!
   createUser(input: CreateUserInput!): User!
-  removeStore(id: Int!): Store!
+  updateHistory(input: UpdateHistoryInput!): History!
   updateItem(input: UpdateItemInput!): Item!
-  updateStore(updateStoreInput: UpdateStoreInput!): Store!
+  updateStore(input: UpdateStoreInput!): Store!
 }
 
 type Query {
-  employee(id: Int!): Employee!
+  employee(input: FindEmployeeInput!): Employee!
   employees: [Employee!]!
+  history(input: FindHistoryInput!): History!
   item(input: FindItemInput!): Item!
   items: [Item!]!
-  store(id: Int!): Store!
+  store(input: FindStoreInput!): Store!
   stores: [Store!]!
   user(input: FindUserInput!): User!
   users: [User!]!
 }
 
 type Store {
+  _id: ID!
+  history: History
+  location: String!
+  name: String!
+}
+
+input UpdateHistoryInput {
+  _id: String
+
   """Example field (placeholder)"""
-  exampleField: Int!
+  exampleField: Int
 }
 
 input UpdateItemInput {
-  _id: ID
+  _id: ID!
   createdBy: String
   model: String
   name: String
@@ -90,9 +145,10 @@ input UpdateItemInput {
 }
 
 input UpdateStoreInput {
+  _id: Int!
+
   """Example field (placeholder)"""
   exampleField: Int
-  id: Int!
 }
 
 type User {

@@ -6,11 +6,23 @@ import { User } from 'src/users/entities/user.entity';
 
 export type EmployeeDocument = Employee & mongoose.Document;
 
+@ObjectType()
+export class EmployeeHistory {
+  @Field()
+  itemName: string;
+
+  @Field()
+  enter: Date;
+
+  @Field()
+  out: Date;
+}
+
 @Schema()
 @ObjectType()
 export class Employee {
   @Field(() => ID)
-  _id: number;
+  _id: string;
 
   @Prop({ unique: true, required: true })
   @Field()
@@ -24,13 +36,21 @@ export class Employee {
   @Field()
   position: string;
 
+  @Prop({
+    // type: EmployeeHistory,
+    // ref: 'EmployeeHistory',
+    default: [],
+  })
+  @Field(() => [EmployeeHistory])
+  employeeHistory: EmployeeHistory[];
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Item' })
   @Field(() => [Item])
-  assetsInPossession?: Item[];
+  itemsInPossession?: Item[];
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   @Field(() => User, { nullable: true })
-  createdBy: User | number;
+  createdBy: User | string;
 }
 
 export const EmployeeSchema = SchemaFactory.createForClass(Employee);

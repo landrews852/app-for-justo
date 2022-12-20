@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { ItemsModule } from './items/items.module';
 import { StoresModule } from './stores/stores.module';
 import { EmployeesModule } from './employees/employees.module';
+import { HistoryModule } from './histories/history.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { EmployeesModule } from './employees/employees.module';
     ItemsModule,
     StoresModule,
     EmployeesModule,
+    HistoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

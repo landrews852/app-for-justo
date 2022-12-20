@@ -29,6 +29,7 @@
     "react/jsx-indent-props": "off",
     "react/jsx-curly-newline": "off",
     "comma-dangle": [2, "always-multiline"],
-    "arrow-parens": "off"
+    "arrow-parens": "off",
+    "capitalized-comments": "off"
   }
 }
