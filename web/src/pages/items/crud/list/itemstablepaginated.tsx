@@ -169,7 +169,9 @@ export default function DataTable() {
       {disabled ? null : <CreateItem className="mb-16 w-64" />}
 
       <div className="gridTable">
-        <Button variant="refresh" onClick={refreshHandle} />
+        <div className="mb-2">
+          <Button variant="refresh" onClick={refreshHandle} />
+        </div>
         <DataGrid
           // loading={rows?.length === 0}
           rows={rows}
