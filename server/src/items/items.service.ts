@@ -58,6 +58,10 @@ export class ItemsService {
     return this.itemModel.find({ createdBy: userId });
   }
 
+  async findWhereIsItById(whereIsIt: any) {
+    return this.itemModel.find({ whereIsIt: whereIsIt });
+  }
+
   // remove(id: number) {
   //   return `This action removes a #${id} item`;
   // }
