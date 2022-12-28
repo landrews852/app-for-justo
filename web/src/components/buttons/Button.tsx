@@ -40,7 +40,10 @@ const Button = ({
 
   if (variant === 'refresh') {
     return (
-      <button onClick={onClick} className="border-0 bg-transparent">
+      <button
+        onClick={onClick}
+        className="border-0 active:text-sky-600 focus:outline-none bg-transparent p-1 pr-2"
+      >
         <SyncRoundedIcon fontSize={fontSize ? fontSize : 'medium'} /> Recargar
       </button>
     );
