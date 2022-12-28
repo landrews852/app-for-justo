@@ -106,7 +106,7 @@ type Mutation {
   createStore(input: CreateStoreInput!): Store!
   createUser(input: CreateUserInput!): User!
   updateHistory(input: UpdateHistoryInput!): History!
-  updateItem(input: UpdateItemInput!): Item!
+  updateItem(input: UpdateEmployeeInput!): Employee!
   updateStore(input: UpdateStoreInput!): Store!
 }
 
@@ -129,19 +129,18 @@ type Store {
   name: String!
 }
 
+input UpdateEmployeeInput {
+  _id: ID!
+  email: String
+  name: String
+  position: String
+}
+
 input UpdateHistoryInput {
   _id: String
 
   """Example field (placeholder)"""
   exampleField: Int
-}
-
-input UpdateItemInput {
-  _id: ID!
-  createdBy: String
-  model: String
-  name: String
-  serialNumber: String
 }
 
 input UpdateStoreInput {

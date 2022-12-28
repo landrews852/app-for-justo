@@ -16,18 +16,42 @@ export class EmployeesResolver {
     return this.employeesService.create(createEmployeeInput);
   }
 
+  @Mutation(() => Employee)
+  async updateItem(@Args('input') employee: UpdateEmployeeInput) {
+    console.log(employee);
+    return this.employeesService.update(employee);
+  }
+
   @Query(() => [Employee], { name: 'employees' })
   async findAll() {
     return this.employeesService.findAll();
   }
 
   @Query(() => Employee, { name: 'employee' })
-  async findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.employeesService.findOne(id);
+  async employee(@Args('input') input: FindEmployeeInput) {
+    if (input._id) {
+      return this.employeesService.findById(input._id);
+    }
+    if (input.email) {
+      return this.employeesService.findOne(input.email);
+    } else
+      return Error(
+        'Es necesario el "Correo" o el "ID" para realizar la búsqueda',
+      );
   }
 
-  @Query(() => Employee)
-  async employee(@Args('input') input: FindEmployeeInput) {
-    return this.employeesService.findById(input._id);
-  }
+  // @Mutation(() => Employee)
+  // removeEmployee(@Args('_id', { type: () => Int }) _id: string) {
+  //   return this.employeesService.remove(_id);
+  // }
+
+  // @Query(() => Employee, { name: 'employee' })
+  // async findOne(@Args('id', { type: () => Int }) id: number) {
+  //   return this.employeesService.findOne(id);
+  // }
+
+  // @Query(() => Employee)
+  // async employee(@Args('input') input: FindEmployeeInput) {
+  //   return this.employeesService.findById(input._id);
+  // }
 }
