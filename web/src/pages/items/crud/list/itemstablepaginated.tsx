@@ -161,7 +161,7 @@ export default function DataTable() {
         url="articulos"
       />
       <div className="text-center">
-        <h1 className="my-10">Items List</h1>
+        <h1 className="my-10">Lista de artículos</h1>
       </div>
 
       <Button {...onClickProps} />

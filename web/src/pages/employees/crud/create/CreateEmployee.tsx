@@ -35,7 +35,7 @@ type NewEmployee = Employee;
 
 type NewEmployeeDetails = Employee;
 
-export default function CreateItem(props: any) {
+export default function CreateEmployee(props: any) {
   const [problem, setProblem] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
