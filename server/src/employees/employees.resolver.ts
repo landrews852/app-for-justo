@@ -10,14 +10,12 @@ export class EmployeesResolver {
   constructor(private readonly employeesService: EmployeesService) {}
 
   @Mutation(() => Employee)
-  async createEmployee(
-    @Args('createEmployeeInput') createEmployeeInput: CreateEmployeeInput,
-  ) {
-    return this.employeesService.create(createEmployeeInput);
+  async createEmployee(@Args('input') employee: CreateEmployeeInput) {
+    return this.employeesService.create(employee);
   }
 
   @Mutation(() => Employee)
-  async updateItem(@Args('input') employee: UpdateEmployeeInput) {
+  async updateEmployee(@Args('input') employee: UpdateEmployeeInput) {
     console.log(employee);
     return this.employeesService.update(employee);
   }
