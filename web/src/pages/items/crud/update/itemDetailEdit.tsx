@@ -7,7 +7,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
 import {
   errorMsgCss,
-  type Asset,
+  type Item,
   successMsgCss,
 } from '../../../../constant/constant';
 import FindItemByID from '../findOne/FindItemByID';

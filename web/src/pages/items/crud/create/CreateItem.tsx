@@ -8,7 +8,7 @@ import {useEffect, useState} from 'react';
 import {
   successMsgCss,
   errorMsgCss,
-  type Asset,
+  type Item,
 } from '../../../../constant/constant';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
 import FindItemBySerialNumber from '../findOne/FindItemBySerialNumber';
@@ -43,8 +43,8 @@ const ITEMS = gql`
   }
 `;
 
-type NewItem = Asset;
-type NewItemDetails = Asset;
+type NewItem = Item;
+type NewItemDetails = Item;
 
 export default function CreateItem(props: any) {
   const [problem, setProblem] = useState('');
@@ -92,7 +92,7 @@ export default function CreateItem(props: any) {
     },
     types: 'submit',
     text: 'Crear',
-    className: 'm-auto',
+    className: 'mx-auto mt-4 py-1 px-8',
   };
 
   useEffect(() => {
@@ -102,7 +102,6 @@ export default function CreateItem(props: any) {
       setProblem('');
     }
   }, [name, model, serialNumber, createdBy]);
-  //    - name && model && serialNumber && createdBy._id
 
   // const msg = () => {
   //   if (error) {

@@ -39,7 +39,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/users" element={<UsersList />} />
             <Route path="/articulos" element={<DataTable />} />
-            <Route path="/empleados" element={<ItemsTable />} />
+            <Route path="/empleados" element={<EmployeeList />} />
             <Route path="/articulos/:_id" element={<ItemDetail />} />
             <Route path="/articulos/:_id/edit" element={<ItemDetailEdit />} />
           </Routes>

@@ -3,7 +3,7 @@
 import {useQuery, gql} from '@apollo/client';
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
-import type {Asset} from '../../../../constant/constant';
+import type {Item} from '../../../../constant/constant';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
 import CreateItem from '../create/CreateItem';
 import SearchBar from '../../../../components/searchbar/SearchBar';

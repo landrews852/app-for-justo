@@ -3,77 +3,97 @@
 /* eslint-disable arrow-parens */
 // Import {validate} from 'graphql';
 import {gql, useMutation} from '@apollo/client';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   successMsgCss,
   errorMsgCss,
-  type Asset,
+  type Employee,
 } from '../../../../constant/constant';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
 
-const CREATE_ITEM = gql`
-  mutation createItem($input: CreateItemInput!) {
-    createItem(input: $input) {
-      _id
+const CREATE_EMPLOYEE = gql`
+  mutation createEmployee($input: CreateEmployeeInput!) {
+    createEmployee(input: $input) {
       name
-      model
-      serialNumber
-      createdBy {
-        _id
-      }
+      email
+      position
     }
   }
 `;
 
-type NewItem = Asset;
+const EMPLOYEES = gql`
+  {
+    employees {
+      name
+      email
+      position
+    }
+  }
+`;
 
-type NewItemDetails = Asset;
+type NewEmployee = Employee;
+
+type NewEmployeeDetails = Employee;
 
 export default function CreateItem(props: any) {
+  const [problem, setProblem] = useState('');
   const [name, setName] = useState('');
-  const [model, setModel] = useState('');
-  const [serialNumber, setSerialNumber] = useState('');
-  const [createdBy, setCreatedBy] = useState('');
+  const [email, setEmail] = useState('');
+  const [position, setPosition] = useState('');
 
-  const [createItem, {error, data}] = useMutation<
-    {createItem: NewItem},
-    {input: NewItemDetails}
-  >(CREATE_ITEM, {
+  const [createEmployee, {error, data}] = useMutation<
+    {createEmployee: NewEmployee},
+    {input: NewEmployeeDetails}
+  >(CREATE_EMPLOYEE, {
     variables: {
       input: {
         name,
-        model,
-        serialNumber,
-        createdBy,
+        email,
+        position,
       },
     },
+    refetchQueries: [{query: EMPLOYEES}, 'Employees'],
   });
+
+  // const found: any = FindEmployeeByEmail(email);
 
   const onClickProps: BtnProps = {
     async onClick(e: Event) {
       e.preventDefault();
-      console.log(data?.createItem);
-      if (name && model && serialNumber && createdBy) {
-        await createItem();
+      console.log(data?.createEmployee);
+      if (name && email && position) {
+        setProblem('');
+        console.log('create employee', data?.createEmployee);
+        await createEmployee();
+        // window.location.reload();
+      } else {
+        setProblem('Falta información');
       }
     },
     types: 'submit',
     text: 'Crear',
-    className: 'm-auto',
+    className: 'mx-auto mt-4 py-1 px-8',
   };
 
-  //    - name && model && serialNumber && createdBy._id
+  useEffect(() => {
+    if (!name || !email || !position) {
+      setProblem('Por favor completa el formulario');
+    } else {
+      setProblem('');
+    }
+  }, [name, email, position]);
 
   return (
     <div className={props.className}>
       {error ? <p className={errorMsgCss}>Oh no! {error}</p> : null}
-      {data?.createItem ? <p className={successMsgCss}>Saved!</p> : null}
+      {problem ? <p className={errorMsgCss}>{problem}</p> : null}
+      {data?.createEmployee ? <p className={successMsgCss}>Saved!</p> : null}
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          console.log(data?.createItem);
+          console.log(data?.createEmployee);
 
-          return name && model && serialNumber && createdBy && createItem();
+          return name && email && position && createEmployee();
         }}
         className="flex flex-col"
       >
@@ -91,34 +111,23 @@ export default function CreateItem(props: any) {
         <input
           className="m-2 p-1 rounded"
           type="text"
-          name="model"
-          placeholder="Modelo"
+          name="email"
+          placeholder="Correo"
           autoComplete="off"
-          value={model}
+          value={email}
           onChange={(e) => {
-            setModel(e.target.value);
+            setEmail(e.target.value);
           }}
         />
         <input
           className="m-2 p-1 rounded"
           type="text"
-          name="serialNumber"
-          placeholder="Numero de serie"
+          name="position"
+          placeholder="Cargo"
           autoComplete="off"
-          value={serialNumber}
+          value={position}
           onChange={(e) => {
-            setSerialNumber(e.target.value);
-          }}
-        />
-        <input
-          className="m-2 p-1 rounded"
-          type="text"
-          name="createdBy"
-          placeholder="Creado por"
-          autoComplete="off"
-          value={createdBy}
-          onChange={(e) => {
-            setCreatedBy(e.target.value);
+            setPosition(e.target.value);
           }}
         />
         <Button {...onClickProps} />

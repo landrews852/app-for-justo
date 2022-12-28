@@ -138,7 +138,7 @@ export default function DataTable() {
       : () => {
           setDisabled(true);
         },
-    text: 'Nuevo Item',
+    text: 'Nuevo Artículo',
     className: 'w-64 mb-8',
   };
 

@@ -1,7 +1,7 @@
 /* eslint-disable new-cap */
 import {useState} from 'react';
 import {Navigate} from 'react-router-dom';
-import {type Asset} from '../../constant/constant';
+import {type Item} from '../../constant/constant';
 import FindItemBySerialNumber from '../../pages/items/crud/findOne/FindItemBySerialNumber';
 import {Button, type BtnProps} from '../buttons/Button';
 

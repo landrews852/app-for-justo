@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {useQuery, gql} from '@apollo/client';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
 import CreateItem from '../../../items/crud/create/CreateItem';
-import type {Asset, User} from '../../../../constant/constant';
+import type {Item, User} from '../../../../constant/constant';
 
 const USERS = gql`
   {
@@ -94,7 +94,7 @@ export default function UsersList() {
               <p>
                 <b className="text-sky-300">Items creados: </b>
               </p>
-              {user.itemsCreated?.map((item: Asset) => (
+              {user.itemsCreated?.map((item: Item) => (
                 <p key={item._id}> {item.name + ` (${item.serialNumber})`}</p>
               ))}
             </div>
