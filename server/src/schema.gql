@@ -100,13 +100,14 @@ type ItemHistory {
 }
 
 type Mutation {
-  createEmployee(createEmployeeInput: CreateEmployeeInput!): Employee!
+  createEmployee(input: CreateEmployeeInput!): Employee!
   createHistory(input: CreateHistoryInput!): History!
   createItem(input: CreateItemInput!): Item!
   createStore(input: CreateStoreInput!): Store!
   createUser(input: CreateUserInput!): User!
+  updateEmployee(input: UpdateEmployeeInput!): Employee!
   updateHistory(input: UpdateHistoryInput!): History!
-  updateItem(input: UpdateEmployeeInput!): Employee!
+  updateItem(input: UpdateItemInput!): Item!
   updateStore(input: UpdateStoreInput!): Store!
 }
 
@@ -141,6 +142,14 @@ input UpdateHistoryInput {
 
   """Example field (placeholder)"""
   exampleField: Int
+}
+
+input UpdateItemInput {
+  _id: ID!
+  createdBy: String
+  model: String
+  name: String
+  serialNumber: String
 }
 
 input UpdateStoreInput {
