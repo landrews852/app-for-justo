@@ -4,7 +4,6 @@ import { Model } from 'mongoose';
 import { CreateEmployeeInput } from './dto/create-employee.input';
 import { UpdateEmployeeInput } from './dto/update-employee.input';
 import { Employee, EmployeeDocument } from './entities/employee.entity';
-// import { UpdateEmployeeInput } from './dto/update-employee.input';
 
 @Injectable()
 export class EmployeesService {

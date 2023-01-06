@@ -6,12 +6,12 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Navbar from './components/navbar/Navbar';
 // Import Sidebar from "./components/sidebar/Sidebar";
 import Home from './pages/home/Home';
-import ItemsList from './pages/items/crud/list/Items';
+import ItemsList from './pages/items/crud/list/Items2';
 import UsersList from './pages/users/crud/list/Users';
 import EmployeeList from './pages/employees/crud/list/Employees';
 import ItemDetailEdit from './pages/items/crud/update/itemDetailEdit';
 import ItemsTable from './pages/items/crud/list/itemstable';
-import DataTable from './pages/items/crud/list/itemstablepaginated';
+import DataTable from './pages/items/crud/list/Items';
 import {useMemo} from 'react';
 import ItemDetail from './pages/items/crud/list/ItemDetail';
 

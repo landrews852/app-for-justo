@@ -56,8 +56,8 @@ export class ItemsResolver {
     return this.usersService.findById(parent.createdBy);
   }
 
-  // @Mutation(() => Item)
-  // removeItem(@Args('_id', { type: () => Int }) _id: number) {
-  //   return this.itemsService.remove(_id);
-  // }
+  @Mutation(() => Item)
+  async removeItem(@Args('_id') _id: string) {
+    return await this.itemsService.remove(_id);
+  }
 }

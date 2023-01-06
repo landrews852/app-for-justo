@@ -21,6 +21,7 @@ const UPDATE_ITEM = gql`
       name
       model
       serialNumber
+      whereIsIt
     }
   }
 `;
@@ -45,6 +46,7 @@ type ItemProps = {
   name?: string;
   model?: string;
   serialNumber?: string;
+  whereIsIt?: string;
 };
 
 type Item = ItemProps;
@@ -61,6 +63,7 @@ export default function ItemDetailEdit() {
   const [name, setName] = useState(assetData.name);
   const [model, setModel] = useState(assetData.model);
   const [serialNumber, setSerialNumber] = useState(assetData.serialNumber);
+  const [whereIsIt, setWhereIsIt] = useState(assetData.setWhereIsIt);
   const [problem, setProblem] = useState('');
 
   // console.log(_id, assetData);
@@ -76,6 +79,7 @@ export default function ItemDetailEdit() {
         name,
         model,
         serialNumber,
+        whereIsIt,
       },
     },
     refetchQueries: [{query: ITEMS}, 'Items'],
@@ -100,9 +104,9 @@ export default function ItemDetailEdit() {
         }
       }
 
-      if (name || model || serialNumber) {
+      if (name || model || serialNumber || whereIsIt) {
         setProblem('');
-        console.log('update?', _id, name, model, serialNumber);
+        console.log('update?', _id, name, model, serialNumber, whereIsIt);
         await updateItem();
       } else {
         setProblem('Se requiere llenar al menos un campo del formulario.');
@@ -113,10 +117,10 @@ export default function ItemDetailEdit() {
   };
 
   useEffect(() => {
-    if (name || model || serialNumber) {
+    if (name || model || serialNumber || whereIsIt) {
       setProblem('');
     }
-  }, [name, model, serialNumber]);
+  }, [name, model, serialNumber, whereIsIt]);
 
   return (
     <div className="w-full flex justify-center">
@@ -166,6 +170,21 @@ export default function ItemDetailEdit() {
           value={serialNumber}
           onChange={(e) => {
             setSerialNumber(e.target.value);
+          }}
+        />
+        <p className="mt-4">
+          ¿Dónde se encuentra?{' '}
+          <i className="text-sm">{'(ID/correo de empleado o bodega)'}</i>
+        </p>
+        <input
+          className="m-2"
+          type="text"
+          name="whereIsIt"
+          autoComplete="off"
+          placeholder={assetData?.whereIsIt}
+          value={whereIsIt}
+          onChange={(e) => {
+            setWhereIsIt(e.target.value);
           }}
         />
         <div className="flex justify-center">

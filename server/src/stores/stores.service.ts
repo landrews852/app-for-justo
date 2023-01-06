@@ -12,12 +12,21 @@ export class StoresService {
     @InjectModel(Store.name) private storeModel: Model<StoreDocument>,
   ) {}
 
-  async createStore(store: CreateStoreInput) {
-    return this.storeModel.create(store);
+  async create(store: CreateStoreInput) {
+    return await this.storeModel.create(store);
   }
 
-  async update(_id: string, store: UpdateStoreInput) {
-    return await this.storeModel.updateOne(store);
+  async update(store: UpdateStoreInput) {
+    return await this.storeModel.findByIdAndUpdate(
+      store._id,
+      {
+        $set: {
+          name: store.name,
+          location: store.location,
+        },
+      },
+      { new: true },
+    );
   }
 
   async findAll() {

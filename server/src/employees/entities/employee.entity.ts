@@ -3,20 +3,9 @@ import { Item } from 'src/items/entities/item.entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { User } from 'src/users/entities/user.entity';
+import { EmployeeHistory } from './types';
 
 export type EmployeeDocument = Employee & mongoose.Document;
-
-@ObjectType()
-export class EmployeeHistory {
-  @Field()
-  itemName: string;
-
-  @Field()
-  enter: Date;
-
-  @Field()
-  out: Date;
-}
 
 @Schema()
 @ObjectType()
@@ -37,8 +26,8 @@ export class Employee {
   position: string;
 
   @Prop({
-    // type: EmployeeHistory,
-    // ref: 'EmployeeHistory',
+    type: EmployeeHistory,
+    ref: 'EmployeeHistory',
     default: [],
   })
   @Field(() => [EmployeeHistory])

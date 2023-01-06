@@ -21,8 +21,8 @@ input CreateItemInput {
 }
 
 input CreateStoreInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  location: String!
+  name: String!
 }
 
 input CreateUserInput {
@@ -47,9 +47,11 @@ type Employee {
 }
 
 type EmployeeHistory {
-  enter: DateTime!
+  _id: String!
+  action: String!
+  date: DateTime!
   itemName: String!
-  out: DateTime!
+  serialNumber: String!
 }
 
 input FindEmployeeInput {
@@ -90,13 +92,15 @@ type Item {
   model: String!
   name: String!
   serialNumber: String!
-  whereIsIt: Employee
+  whereIsIt: String
 }
 
 type ItemHistory {
-  enter: DateTime!
-  out: DateTime!
-  whereId: String!
+  _id: String!
+  action: String!
+  date: DateTime!
+  email: String
+  whereName: String!
 }
 
 type Mutation {
@@ -105,6 +109,7 @@ type Mutation {
   createItem(input: CreateItemInput!): Item!
   createStore(input: CreateStoreInput!): Store!
   createUser(input: CreateUserInput!): User!
+  removeItem(_id: String!): Item!
   updateEmployee(input: UpdateEmployeeInput!): Employee!
   updateHistory(input: UpdateHistoryInput!): History!
   updateItem(input: UpdateItemInput!): Item!
@@ -125,9 +130,17 @@ type Query {
 
 type Store {
   _id: ID!
-  history: History
+  history: [StoreHistory!]!
   location: String!
   name: String!
+}
+
+type StoreHistory {
+  _id: String!
+  action: String!
+  date: DateTime!
+  itemName: String!
+  serialNumber: String!
 }
 
 input UpdateEmployeeInput {
@@ -154,9 +167,8 @@ input UpdateItemInput {
 
 input UpdateStoreInput {
   _id: Int!
-
-  """Example field (placeholder)"""
-  exampleField: Int
+  location: String
+  name: String
 }
 
 type User {

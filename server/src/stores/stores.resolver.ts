@@ -12,13 +12,13 @@ export class StoresResolver {
   @Mutation(() => Store)
   async createStore(@Args('input') store: CreateStoreInput) {
     console.log(store);
-    return this.storesService.createStore(store);
+    return this.storesService.create(store);
   }
 
   @Mutation(() => Store)
   async updateStore(@Args('input') store: UpdateStoreInput) {
     console.log(store);
-    return this.storesService.update(store._id, store);
+    return this.storesService.update(store);
   }
 
   @Query(() => [Store], { name: 'stores' })

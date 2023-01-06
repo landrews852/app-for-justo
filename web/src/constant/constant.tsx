@@ -3,6 +3,7 @@ export type Item = {
   name?: string;
   model?: string;
   serialNumber?: string;
+  whereIsIt?: string;
   // createdBy?: string;
 };
 

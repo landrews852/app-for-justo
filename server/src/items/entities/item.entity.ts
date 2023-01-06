@@ -1,22 +1,10 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-// import { ItemHistory } from './types';
+import { ItemHistory } from './types';
 import { Employee } from 'src/employees/entities/employee.entity';
 import { User } from 'src/users/entities/user.entity';
 // import { Store } from 'src/stores/entities/store.entity';
-
-@ObjectType()
-export class ItemHistory {
-  @Field()
-  whereId: string;
-
-  @Field()
-  enter: Date;
-
-  @Field()
-  out: Date;
-}
 
 export type ItemDocument = Item & mongoose.Document;
 
@@ -38,13 +26,17 @@ export class Item {
   @Field()
   serialNumber: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Employee.name })
-  @Field(() => Employee, { nullable: true })
-  whereIsIt: Employee;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Employee.name })
+  // @Field(() => Employee, { nullable: true })
+  // whereIsIt: Employee;
+
+  @Prop()
+  @Field({ nullable: true })
+  whereIsIt: string;
 
   @Prop({
-    // type: ItemHistory,
-    // ref: 'ItemHistory',
+    type: ItemHistory,
+    ref: 'ItemHistory',
     default: [],
   })
   @Field(() => [ItemHistory])

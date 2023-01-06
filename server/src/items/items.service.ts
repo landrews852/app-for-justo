@@ -28,7 +28,7 @@ export class ItemsService {
   }
 
   async findAll() {
-    return this.itemModel.find().lean();
+    return await this.itemModel.find().lean();
   }
 
   async findOne(input) {
@@ -55,14 +55,14 @@ export class ItemsService {
   }
 
   async findUserById(userId: any) {
-    return this.itemModel.find({ createdBy: userId });
+    return await this.itemModel.find({ createdBy: userId });
   }
 
   async findWhereIsItById(whereIsIt: any) {
-    return this.itemModel.find({ whereIsIt: whereIsIt });
+    return await this.itemModel.find({ whereIsIt: whereIsIt });
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} item`;
-  // }
+  async remove(_id: string) {
+    return await this.itemModel.findByIdAndDelete(_id);
+  }
 }

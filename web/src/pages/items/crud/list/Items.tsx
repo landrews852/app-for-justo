@@ -1,19 +1,19 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/indent */
 import {useQuery, gql} from '@apollo/client';
 import {useState} from 'react';
-import {Link} from 'react-router-dom';
-import type {Item} from '../../../../constant/constant';
+import {Link, useNavigate} from 'react-router-dom';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
-import CreateItem from '../create/CreateItem';
+import type {GridColDef, GridApi, GridCellValue} from '@mui/x-data-grid';
+import {DataGrid} from '@mui/x-data-grid';
 import SearchBar from '../../../../components/searchbar/SearchBar';
+import CreateItem from '../create/CreateItem';
+import './styles.css';
 
 type Items = {
   _id: string;
   name: string;
   model: string;
   serialNumber: string;
-  createdBy: {_id: string; username: string};
+  createdBy: {username: string};
 };
 
 type ItemsData = {
@@ -34,8 +34,82 @@ const ITEMS = gql`
   }
 `;
 
-export default function ItemsList() {
-  const [disabled, setDisabled] = useState(true);
+export default function DataTable() {
+  const [disabled, setDisabled] = useState<boolean>(true);
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [page, setPage] = useState(0);
+  const navigate = useNavigate();
+
+  // const editBtnProps: BtnProps = {
+  //   text: 'Editar',
+  //   className: 'py-0',
+  // };
+
+  const columns: GridColDef[] = [
+    {
+      field: 'edit',
+      headerName: '',
+      sortable: false,
+      filterable: false,
+      align: 'center',
+      width: 50,
+      renderCell(params) {
+        const onClick = (e) => {
+          const {api} = params;
+          const thisRow: Record<string, GridCellValue> = {};
+          console.log(thisRow);
+
+          api
+            .getAllColumns()
+            .forEach(
+              (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
+            );
+          console.log(thisRow.id);
+
+          navigate('/articulos/' + thisRow.id + '/edit');
+        };
+
+        return (
+          <Button onClick={onClick} variant="edit" className="px-2 py-1" />
+        );
+      },
+    },
+    {
+      field: 'detail',
+      headerName: '',
+      sortable: false,
+      filterable: false,
+      align: 'center',
+      width: 50,
+      renderCell(params) {
+        const onClick = (e) => {
+          // e.stopPropagation(); // don't select this row after clicking
+
+          const {api} = params;
+          const thisRow: Record<string, GridCellValue> = {};
+          console.log(thisRow);
+
+          api
+            .getAllColumns()
+            // .filter((c) => c.field !== '__check__' && Boolean(c))
+            .forEach(
+              (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
+            );
+          console.log(thisRow.id);
+
+          navigate('/articulos/' + thisRow.id);
+        };
+
+        return (
+          <Button onClick={onClick} variant="detail" className="px-2 py-1" />
+        );
+      },
+    },
+    {field: 'name', headerName: 'Nombre', width: 250},
+    {field: 'model', headerName: 'Modelo', width: 250},
+    {field: 'serialNumber', headerName: 'Número de serie', width: 250},
+    {field: 'id', headerName: 'ID', width: 250},
+  ];
 
   type ItemsQueryProps = {
     data?: ItemsData;
@@ -44,6 +118,7 @@ export default function ItemsList() {
   };
 
   const {data, loading, error}: ItemsQueryProps = useQuery<ItemsData>(ITEMS);
+  console.log('data', data);
 
   if (loading) {
     return (
@@ -63,61 +138,53 @@ export default function ItemsList() {
       : () => {
           setDisabled(true);
         },
-    text: 'Nuevo Item',
-    className: 'w-64 m-auto mb-8',
+    text: 'Nuevo Artículo',
+    className: 'w-64 mb-8',
   };
 
-  const editBtnProps: BtnProps = {
-    text: 'Editar',
-    className: 'py-0',
-  };
+  const rows = data?.items.map((item) => ({
+    id: item._id,
+    name: item.name,
+    model: item.model,
+    serialNumber: item.serialNumber,
+  }));
+
+  function refreshHandle() {
+    window.location.reload();
+  }
 
   return (
-    <div className="m-3 items-center justify-center flex flex-col">
+    <div className="m-6 items-center flex flex-col pb-4 max-w-full h-full">
       <SearchBar
-        placeholder="Buscar activos"
+        placeholder="Buscar artículos"
         className="self-end"
-        url="assets"
+        url="articulos"
       />
-
       <div className="text-center">
-        <h1 className="my-10">Items List</h1>
+        <h1 className="my-10">Lista de artículos</h1>
       </div>
 
       <Button {...onClickProps} />
 
-      {disabled ? null : <CreateItem className="m-4 mt-0 w-64" />}
+      {disabled ? null : <CreateItem className="mb-16 w-64" />}
 
-      <div className="grid grid-cols-3">
-        {data?.items.map((item: Items) => (
-          <>
-            <div
-              className="flex flex-col justify-between border rounded m-2 p-3"
-              key={item._id}
-            >
-              <p className="text-center my-2">
-                <b className="text-sky-500 text-xl">{item.name} </b>
-              </p>
-              <p>
-                <b className="text-sky-300">Modelo: </b>
-                {item.model}
-              </p>
-              <p>
-                <b className="text-sky-300">Número de serie: </b>
-                {item.serialNumber}
-              </p>
-              <p>
-                <b className="text-sky-300">Agregado por: </b>
-                {item.createdBy.username}
-              </p>
-              <div className="flex justify-center">
-                <Link to={'/assets/' + item._id} className="m-2 mt-4">
-                  <Button {...editBtnProps} />
-                </Link>
-              </div>
-            </div>
-          </>
-        ))}
+      <div className="gridTable">
+        <Button variant="refresh" onClick={refreshHandle} />
+        <DataGrid
+          // loading={rows?.length === 0}
+          rows={rows}
+          columns={columns}
+          page={page}
+          pageSize={pageSize}
+          pagination
+          rowsPerPageOptions={[10, 25, 50, 100]}
+          onPageSizeChange={(newPageSize) => {
+            setPageSize(newPageSize);
+          }}
+          onPageChange={(newPage) => {
+            setPage(newPage);
+          }}
+        />
       </div>
     </div>
   );

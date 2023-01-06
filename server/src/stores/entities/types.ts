@@ -6,15 +6,15 @@ enum action {
 }
 
 @ObjectType()
-export class ItemHistory {
+export class StoreHistory {
   @Field()
   _id: string;
 
   @Field()
-  whereName: string;
+  itemName: string;
 
-  @Field({ nullable: true })
-  email: string;
+  @Field()
+  serialNumber: string;
 
   @Field()
   action: action;
