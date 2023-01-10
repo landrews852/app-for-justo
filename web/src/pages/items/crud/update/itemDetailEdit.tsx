@@ -41,6 +41,18 @@ const ITEMS = gql`
   }
 `;
 
+const DELETE_ITEM = gql`
+  mutation deleteAuthor($input: DeleteItem!) {
+    deleteAuthor(filter: $filter) {
+      msg
+      author {
+        name
+        dob
+      }
+    }
+  }
+`;
+
 type ItemProps = {
   _id: string;
   name?: string;
@@ -114,6 +126,34 @@ export default function ItemDetailEdit() {
     },
     className: 'm-2 mt-8 font-bold',
     text: 'Guardar',
+  };
+
+  const deleteBtnProps: BtnProps = {
+    async onClick(e: Event) {
+      e.preventDefault();
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      if (found) {
+        if (found.serialNumber === assetData.serialNumber) {
+          setSerialNumber('');
+        } else {
+          setProblem('El número de serie ya existe.');
+          return false;
+        }
+      }
+
+      if (name || model || serialNumber || whereIsIt) {
+        setProblem('');
+        console.log('update?', _id, name, model, serialNumber, whereIsIt);
+        await updateItem();
+      } else {
+        setProblem('Se requiere llenar al menos un campo del formulario.');
+      }
+    },
+    variant: 'delete',
   };
 
   useEffect(() => {
@@ -196,6 +236,7 @@ export default function ItemDetailEdit() {
             }}
           />
           <Button {...editBtnProps} />
+          <Button {...deleteBtnProps} />
         </div>
       </div>
     </div>
