@@ -1,20 +1,20 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 
 enum action {
-  In = 'in',
-  Out = 'out',
+  in = 'in',
+  out = 'out',
 }
 
 @ObjectType()
 export class ItemHistory {
-  @Field()
-  _id: string;
+  // @Field()
+  // _id: string;
 
   @Field()
-  whereName: string;
+  relationId: string;
 
-  @Field({ nullable: true })
-  email: string;
+  @Field()
+  type: string;
 
   @Field()
   action: action;

@@ -10,7 +10,7 @@ type BtnProps = {
   text?: any;
   className?: string;
   variant?: string;
-  fontSize: string;
+  fontSize?: string;
   href?: any;
 };
 
@@ -23,17 +23,49 @@ const Button = ({
   fontSize,
   href,
 }: BtnProps) => {
-  if (variant === 'edit') {
+  if (!variant) {
+    const style = () => {
+      if (className) {
+        return className;
+      }
+
+      return 'm-2 mt-8 focus:outline-none';
+    };
+
     return (
-      <button onClick={onClick} className={className}>
+      <button onClick={onClick} className={style()} type={types}>
+        {text}
+      </button>
+    );
+  }
+
+  if (variant === 'edit') {
+    const style = () => {
+      if (className) {
+        return className;
+      }
+
+      return 'px-2 py-1 focus:outline-none';
+    };
+
+    return (
+      <button onClick={onClick} className={style()}>
         <EditIcon fontSize={fontSize ? fontSize : 'small'} />
       </button>
     );
   }
 
   if (variant === 'detail') {
+    const style = () => {
+      if (className) {
+        return className;
+      }
+
+      return 'px-2 py-1 focus:outline-none';
+    };
+
     return (
-      <button onClick={onClick} className={className}>
+      <button onClick={onClick} className={style()}>
         <FileOpenRoundedIcon fontSize={fontSize ? fontSize : 'small'} />
       </button>
     );
@@ -52,7 +84,7 @@ const Button = ({
 
   if (variant === 'goBack') {
     return (
-      <button onClick={onClick} className={className + 'focus:outline-none'}>
+      <button onClick={onClick} className={className}>
         <KeyboardBackspaceRoundedIcon
           fontSize={fontSize ? fontSize : 'medium'}
         />
@@ -76,11 +108,8 @@ const Button = ({
     );
   }
 
-  return (
-    <button onClick={onClick} className={className} type={types}>
-      {text}
-    </button>
-  );
+  // Error('no existe la variante');
+  console.log('no existe la variante');
 };
 
 export {Button, type BtnProps};

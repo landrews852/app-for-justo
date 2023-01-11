@@ -69,9 +69,7 @@ export default function DataTable() {
           navigate('/articulos/' + thisRow.id + '/edit');
         };
 
-        return (
-          <Button onClick={onClick} variant="edit" className="px-2 py-1" />
-        );
+        return <Button onClick={onClick} variant="edit" />;
       },
     },
     {
@@ -100,9 +98,7 @@ export default function DataTable() {
           navigate('/articulos/' + thisRow.id);
         };
 
-        return (
-          <Button onClick={onClick} variant="detail" className="px-2 py-1" />
-        );
+        return <Button onClick={onClick} variant="detail" />;
       },
     },
     {field: 'name', headerName: 'Nombre', width: 250},
@@ -139,7 +135,7 @@ export default function DataTable() {
           setDisabled(true);
         },
     text: 'Nuevo Artículo',
-    className: 'w-64 mb-8',
+    className: 'w-64 mb-8 focus:outline-none',
   };
 
   const rows = data?.items.map((item) => ({

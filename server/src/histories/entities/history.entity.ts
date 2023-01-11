@@ -4,6 +4,11 @@ import * as mongoose from 'mongoose';
 
 export type HistoryDocument = History & mongoose.Document;
 
+enum action {
+  In = 'in',
+  Out = 'out',
+}
+
 @Schema({ timestamps: true })
 @ObjectType()
 export class History {
@@ -17,6 +22,12 @@ export class History {
   @Prop({ required: true })
   @Field()
   relationID: string;
+
+  @Field()
+  action: action;
+
+  @Field()
+  date: Date;
 }
 
 export const HistorySchema = SchemaFactory.createForClass(History);

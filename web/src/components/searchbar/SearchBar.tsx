@@ -33,7 +33,6 @@ export default function SearchBar(props: Props) {
       }
     },
     text: 'Buscar',
-    className: 'm-2',
   };
 
   return (

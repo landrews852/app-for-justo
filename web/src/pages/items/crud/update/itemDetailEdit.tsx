@@ -75,7 +75,7 @@ export default function ItemDetailEdit() {
   const [name, setName] = useState(assetData.name);
   const [model, setModel] = useState(assetData.model);
   const [serialNumber, setSerialNumber] = useState(assetData.serialNumber);
-  const [whereIsIt, setWhereIsIt] = useState(assetData.setWhereIsIt);
+  const [whereIsIt, setWhereIsIt] = useState('');
   const [problem, setProblem] = useState('');
 
   // console.log(_id, assetData);
@@ -98,6 +98,17 @@ export default function ItemDetailEdit() {
   });
 
   const found: any = FindItemBySerialNumber(serialNumber);
+
+  const whereIsItHandle = () => {
+    const type = '';
+
+    const itemHistory = {
+      relationId: '',
+      type: '',
+      action: '',
+      date: Date.now,
+    };
+  };
 
   const editBtnProps: BtnProps = {
     async onClick(e: Event) {
@@ -124,7 +135,7 @@ export default function ItemDetailEdit() {
         setProblem('Se requiere llenar al menos un campo del formulario.');
       }
     },
-    className: 'm-2 mt-8 font-bold',
+    // className: 'm-2 mt-8 font-bold',
     text: 'Guardar',
   };
 
@@ -220,9 +231,8 @@ export default function ItemDetailEdit() {
           className="m-2"
           type="text"
           name="whereIsIt"
-          autoComplete="off"
-          placeholder={assetData?.whereIsIt}
-          value={whereIsIt}
+          autoComplete="on"
+          placeholder="Ingrese el email de empleado o nombre de bodega."
           onChange={(e) => {
             setWhereIsIt(e.target.value);
           }}
@@ -230,7 +240,7 @@ export default function ItemDetailEdit() {
         <div className="flex justify-center">
           <Button
             variant="goBack"
-            className="m-2 mt-8 h-12"
+            className="m-2 mt-8 h-12 focus:outline-none"
             onClick={() => {
               navigate(-1);
             }}

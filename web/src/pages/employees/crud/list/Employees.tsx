@@ -65,9 +65,7 @@ export default function DataTable() {
           navigate('/empleados/' + thisRow.id + '/edit');
         };
 
-        return (
-          <Button onClick={onClick} variant="edit" className="px-2 py-1" />
-        );
+        return <Button onClick={onClick} variant="edit" />;
       },
     },
     {

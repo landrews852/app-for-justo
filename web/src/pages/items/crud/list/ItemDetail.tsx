@@ -30,7 +30,7 @@ export default function ItemDetail() {
 
   const editBtnProps: BtnProps = {
     variant: 'edit',
-    className: 'px-[10px] py-[7.5px] m-1',
+    className: 'px-[11px] py-[9.5px] m-1',
     fontSize: 'medium',
   };
   return (
@@ -39,10 +39,10 @@ export default function ItemDetail() {
         <Button
           variant="goBack"
           fontSize="small"
+          className="pb-[10.5px]"
           onClick={() => {
             navigate(-1);
           }}
-          className="px-3 py-2 m-1"
         />
         <Link to={'/articulos/' + itemData._id + '/edit'} className="">
           <Button {...editBtnProps} />
