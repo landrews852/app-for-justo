@@ -155,6 +155,7 @@ export default function ItemsDataTable() {
         placeholder="Buscar artículos"
         className="self-end"
         url="articulos"
+        searchBy="article"
       />
       <div className="text-center">
         <h1 className="my-10">Lista de artículos</h1>

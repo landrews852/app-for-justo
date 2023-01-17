@@ -10,6 +10,7 @@ const FIND_ONE_ITEM = gql`
       name
       model
       serialNumber
+      itemHistory
     }
   }
 `;

@@ -9,6 +9,7 @@ type Props = {
   url: string;
   placeholder: string;
   className?: string;
+  searchBy: string;
 };
 
 export default function SearchBar(props: Props) {
@@ -16,28 +17,47 @@ export default function SearchBar(props: Props) {
   const [problem, setProblem] = useState('');
   const [navigate, setNavigate] = useState(false);
 
-  const item: any = FindItemBySerialNumber(input);
+  // const searchBy: any = () => {
+  //   if (props.searchBy === 'article') {
+  //     const data: any = FindItemBySerialNumber(input);
+  //   }
+
+  //   return false;
+  // };
+
+  let data: any = Object;
 
   const onClickProps: BtnProps = {
     onClick(e) {
       e.preventDefault();
-      console.log(item);
-      if (item.name) {
+      if (props.searchBy === 'article') {
+        data = FindItemBySerialNumber(input);
+      }
+
+      if (props.searchBy === 'employee') {
+        // data = FindEmployeeByID(input);
+        console.log('employee');
+      }
+
+      if (props.searchBy === 'store') {
+        console.log('store');
+        // data = FindEmployeeByID(input);
+      }
+
+      if (data) {
         setProblem('');
         setNavigate(true);
-      } else {
-        setNavigate(false);
-        setProblem(
-          'No se encontró nada, intenta con el número de serie o ID del artículo.',
-        );
       }
+
+      setNavigate(false);
+      setProblem('No se encontró nada, intenta con el ID.');
     },
     text: 'Buscar',
   };
 
   return (
     <div className={props.className}>
-      <form className="self-right">
+      <form className="w-full self-right">
         <input
           type="text"
           placeholder={props.placeholder}
@@ -46,7 +66,7 @@ export default function SearchBar(props: Props) {
           }}
         />
         {navigate ? (
-          <Navigate to={`/${props.url}/${item._id}`} replace={true} />
+          <Navigate to={`/${props.url}/${data._id}`} replace={true} />
         ) : null}
         <Button {...onClickProps} />
       </form>

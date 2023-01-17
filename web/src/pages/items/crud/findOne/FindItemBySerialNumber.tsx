@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {useQuery, gql} from '@apollo/client';
 import type {Item} from '../../../../constant/constant';
+import FindItemByID from './FindItemByID';
 
 const FIND_ONE_ITEM = gql`
   query item($input: FindItemInput!) {
@@ -14,7 +15,7 @@ const FIND_ONE_ITEM = gql`
   }
 `;
 
-type ID = {serialNumber: string};
+type ID = {serialNumber?: string; _id: string};
 type ItemData = {
   item: Item;
 };
@@ -32,7 +33,7 @@ export default function FindItemBySerialNumber(props: string) {
   >(FIND_ONE_ITEM, {
     variables: {
       input: {
-        serialNumber: props,
+        input: props,
       },
     },
   });
@@ -50,7 +51,7 @@ export default function FindItemBySerialNumber(props: string) {
     return data?.item;
   }
 
-  return false;
+  FindItemByID(props);
 
   //   Return (
   //     <div className="container">
