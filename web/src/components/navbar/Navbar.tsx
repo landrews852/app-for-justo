@@ -15,7 +15,7 @@ export default function Navbar() {
         <Link to="/empleados">
           <p className="text-xl font-bold">Empleados</p>
         </Link>
-        <Link to="/users">
+        <Link to="/bodegas">
           <p className="text-xl font-bold">Bodegas</p>
         </Link>
       </div>

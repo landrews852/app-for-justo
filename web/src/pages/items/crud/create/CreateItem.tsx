@@ -84,7 +84,6 @@ export default function CreateItem(props: any) {
           setProblem('');
           console.log('create item', data?.createItem);
           await createItem();
-          // window.location.reload();
         }
       } else {
         setProblem('Falta información');
@@ -97,7 +96,11 @@ export default function CreateItem(props: any) {
 
   useEffect(() => {
     if (!name || !model || !serialNumber || !createdBy) {
-      setProblem('Por favor completa el formulario');
+      if (found) {
+        setProblem('El número de serie ya existe.');
+      } else {
+        setProblem('Por favor completa el formulario');
+      }
     } else {
       setProblem('');
     }

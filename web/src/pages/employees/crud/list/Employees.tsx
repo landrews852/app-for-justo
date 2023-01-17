@@ -151,9 +151,9 @@ export default function DataTable() {
   return (
     <div className="m-6 items-center flex flex-col pb-4 max-w-full h-full">
       <SearchBar
-        placeholder="Buscar artículos"
+        placeholder="Buscar empleados"
         className="self-end"
-        url="articulos"
+        url="empleados"
       />
       <div className="text-center">
         <h1 className="my-10">Lista de empleados</h1>

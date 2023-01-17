@@ -6,14 +6,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Navbar from './components/navbar/Navbar';
 // Import Sidebar from "./components/sidebar/Sidebar";
 import Home from './pages/home/Home';
-import ItemsList from './pages/items/crud/list/Items2';
 import UsersList from './pages/users/crud/list/Users';
-import EmployeeList from './pages/employees/crud/list/Employees';
-import ItemDetailEdit from './pages/items/crud/update/itemDetailEdit';
-import ItemsTable from './pages/items/crud/list/itemstable';
-import DataTable from './pages/items/crud/list/Items';
-import {useMemo} from 'react';
+import ItemsDataTable from './pages/items/crud/list/Items';
 import ItemDetail from './pages/items/crud/list/ItemDetail';
+import ItemDetailEdit from './pages/items/crud/update/itemDetailEdit';
+import {useMemo} from 'react';
+import EmployeeDataTable from './pages/employees/crud/list/Employees';
+import StoresDataTable from './pages/stores/crud/list/stores';
 
 export default function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -38,10 +37,15 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/users" element={<UsersList />} />
-            <Route path="/articulos" element={<DataTable />} />
-            <Route path="/empleados" element={<EmployeeList />} />
+            <Route path="/articulos" element={<ItemsDataTable />} />
             <Route path="/articulos/:_id" element={<ItemDetail />} />
             <Route path="/articulos/:_id/edit" element={<ItemDetailEdit />} />
+            <Route path="/empleados" element={<EmployeeDataTable />} />
+            {/* <Route path="/empleados/:_id" element={<EmployeeDetail />} />
+            <Route path="/empleados/:_id/edit" element={<EmployeeDetailEdit />} /> */}
+            <Route path="/bodegas" element={<StoresDataTable />} />
+            {/* <Route path="/store/:_id" element={<StoreDetail />} />
+            <Route path="/store/:_id/edit" element={<StoreDetailEdit />} /> */}
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

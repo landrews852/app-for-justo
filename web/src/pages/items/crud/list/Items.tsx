@@ -34,7 +34,7 @@ const ITEMS = gql`
   }
 `;
 
-export default function DataTable() {
+export default function ItemsDataTable() {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [pageSize, setPageSize] = useState<number>(10);
   const [page, setPage] = useState(0);
