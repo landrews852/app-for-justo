@@ -22,5 +22,11 @@ export type Employee = {
   itemsInPossession?: any;
 };
 
+export type Store = {
+  _id?: string;
+  name?: string;
+  location?: string;
+};
+
 export const successMsgCss = 'text-center font-medium text-green-600';
 export const errorMsgCss = 'text-center font-medium text-red-500';
