@@ -66,7 +66,9 @@ export default function ItemDetail() {
               </>
             ))
           ) : (
-            <p className="">Aún no existe un historial</p>
+            <p className="my-2 text-xl italic">
+              ( Aún no existe un historial )
+            </p>
           )}
         </div>
       </div>
