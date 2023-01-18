@@ -33,11 +33,12 @@ export default function SearchBar(props: Props) {
       }
     },
     text: 'Buscar',
+    className: 'ml-2',
   };
 
   return (
-    <div className={props.className}>
-      <form className="self-right">
+    <div className="flex flex-col self-end mb-4">
+      <form className="flex flex-row items-center self-end">
         <input
           type="text"
           placeholder={props.placeholder}
@@ -50,7 +51,7 @@ export default function SearchBar(props: Props) {
         ) : null}
         <Button {...onClickProps} />
       </form>
-      <p>{problem ? problem : null}</p>
+      {problem ? <p className="mt-2 mb-[-32px]">{problem}</p> : null}
     </div>
   );
 }
