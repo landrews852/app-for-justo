@@ -7,6 +7,7 @@ import {DataGrid} from '@mui/x-data-grid';
 import SearchBar from '../../../../components/searchbar/SearchBar';
 import CreateItem from '../create/CreateItem';
 import './styles.css';
+import ReactTransitionGroup from '../../../../components/effects/reactTransitionGroup';
 
 type Items = {
   _id: string;
@@ -126,16 +127,9 @@ export default function ItemsDataTable() {
     return <pre>{error.message}</pre>;
   }
 
-  const onClickProps: BtnProps = {
-    onClick: disabled
-      ? () => {
-          setDisabled(false);
-        }
-      : () => {
-          setDisabled(true);
-        },
-    text: 'Nuevo Artículo',
-    className: 'w-64 mb-8 focus:outline-none',
+  const onClickProps: any = {
+    content: <CreateItem className="mb-16 w-64" />,
+    text: 'Agregar Artículo',
   };
 
   const rows = data?.items.map((item) => ({
@@ -160,9 +154,9 @@ export default function ItemsDataTable() {
         <h1 className="my-10">Lista de artículos</h1>
       </div>
 
-      <Button {...onClickProps} />
+      <ReactTransitionGroup {...onClickProps} />
 
-      {disabled ? null : <CreateItem className="mb-16 w-64" />}
+      {/* {disabled ? null : <CreateItem className="mb-16 w-64" />} */}
 
       <div className="gridTable">
         <Button variant="refresh" onClick={refreshHandle} />
