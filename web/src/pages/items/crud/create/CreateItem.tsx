@@ -171,9 +171,9 @@ export default function CreateItem(props: any) {
           name="whereIsIt"
           placeholder="¿Dónde se encuentra?"
           autoComplete="off"
-          value={createdBy}
+          value={whereIsIt}
           onChange={(e) => {
-            setCreatedBy(e.target.value);
+            setWhereIsIt(e.target.value);
           }}
         />
         <div className="flex">

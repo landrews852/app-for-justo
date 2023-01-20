@@ -21,6 +21,7 @@ export class ItemsService {
           name: item.name,
           model: item.model,
           serialNumber: item.serialNumber,
+          createdBy: item.createdBy,
           itemHistory: item.whereIsIt,
         },
       },

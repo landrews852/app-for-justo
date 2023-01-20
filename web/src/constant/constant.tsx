@@ -4,7 +4,7 @@ export type Item = {
   model?: string;
   serialNumber?: string;
   whereIsIt?: string;
-  // createdBy?: string;
+  createdBy?: string;
 };
 
 export type User = {
