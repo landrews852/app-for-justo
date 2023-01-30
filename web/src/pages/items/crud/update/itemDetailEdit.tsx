@@ -14,6 +14,7 @@ import FindItemByID from '../findOne/FindItemByID';
 // import updateItem from '../items/crud/update/UpdateItems';
 import {useMutation, gql} from '@apollo/client';
 import FindItemBySerialNumber from '../findOne/FindItemBySerialNumber';
+import DeleteItem from '../delete/deleteItem';
 
 const UPDATE_ITEM = gql`
   mutation updateItem($input: UpdateItemInput!) {
@@ -41,29 +42,6 @@ const ITEMS = gql`
   }
 `;
 
-const DELETE_ITEM = gql`
-  mutation deleteAuthor($input: DeleteItem!) {
-    deleteAuthor(filter: $filter) {
-      msg
-      author {
-        name
-        dob
-      }
-    }
-  }
-`;
-
-type ItemProps = {
-  _id: string;
-  name?: string;
-  model?: string;
-  serialNumber?: string;
-  whereIsIt?: string;
-};
-
-type Item = ItemProps;
-type UpdatedItem = ItemProps;
-
 export default function ItemDetailEdit() {
   const navigate = useNavigate();
   const {_id} = useParams();
@@ -78,12 +56,14 @@ export default function ItemDetailEdit() {
   const [whereIsIt, setWhereIsIt] = useState('');
   const [problem, setProblem] = useState('');
 
+  const {handleDelete, error: deleteError} = DeleteItem({_id});
+
   // console.log(_id, assetData);
   // console.log(typeof assetData);
 
   const [updateItem, {error, data}] = useMutation<
     {updateItem: Item},
-    {input: UpdatedItem}
+    {input: Item}
   >(UPDATE_ITEM, {
     variables: {
       input: {
@@ -142,26 +122,16 @@ export default function ItemDetailEdit() {
   const deleteBtnProps: BtnProps = {
     async onClick(e: Event) {
       e.preventDefault();
-      if (error) {
-        console.log(error);
-        return;
+      if (_id) {
+        console.log('ID deleted ->', _id);
+
+        await handleDelete(_id);
       }
 
-      if (found) {
-        if (found.serialNumber === assetData.serialNumber) {
-          setSerialNumber('');
-        } else {
-          setProblem('El número de serie ya existe.');
-          return false;
-        }
-      }
-
-      if (name || model || serialNumber || whereIsIt) {
-        setProblem('');
-        console.log('update?', _id, name, model, serialNumber, whereIsIt);
-        await updateItem();
+      if (deleteError) {
+        console.log(deleteError);
       } else {
-        setProblem('Se requiere llenar al menos un campo del formulario.');
+        setProblem('Hay un problema con la ID');
       }
     },
     variant: 'delete',

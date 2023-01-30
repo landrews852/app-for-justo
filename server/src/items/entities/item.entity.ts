@@ -1,10 +1,7 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, InterfaceType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { ItemHistory } from './types';
-import { Employee } from 'src/employees/entities/employee.entity';
 import { User } from 'src/users/entities/user.entity';
-// import { Store } from 'src/stores/entities/store.entity';
 
 export type ItemDocument = Item & mongoose.Document;
 
@@ -26,16 +23,8 @@ export class Item {
   @Field()
   serialNumber: string;
 
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Employee.name })
-  // @Field(() => Employee, { nullable: true })
-  // whereIsIt: Employee;
-
-  @Prop()
-  @Field({ nullable: true })
-  whereIsIt: string;
-
   @Prop({
-    type: ItemHistory,
+    type: Array,
     ref: 'ItemHistory',
     default: [],
   })
@@ -47,7 +36,38 @@ export class Item {
   createdBy: string;
 }
 
+export const resolveItemHistoryType = (
+  itemHistory: ItemHistory,
+): typeof StoreItemHistory | typeof EmployeeItemHistory => {
+  switch (itemHistory.ownerType) {
+    case 'Bodega':
+      return StoreItemHistory;
+    case 'Empleado':
+      return EmployeeItemHistory;
+    default:
+      return null;
+  }
+};
+
+// @InterfaceType()
+@InterfaceType({ isAbstract: true, resolveType: resolveItemHistoryType })
+export class ItemHistory extends Item {
+  @Field()
+  relationId: string;
+
+  @Field()
+  ownerType: 'Bodega' | 'Empleado';
+
+  @Field()
+  date: Date;
+}
+
+@ObjectType({ isAbstract: true })
+class StoreItemHistory extends ItemHistory {}
+
+@ObjectType({ isAbstract: true })
+class EmployeeItemHistory extends ItemHistory {}
+
 export const ItemSchema = SchemaFactory.createForClass(Item);
 
-// ItemSchema.index({ User: 1, ItemHistory: 1 });
-ItemSchema.index({ User: 1 });
+ItemSchema.index({ createdBy: 1 });

@@ -15,6 +15,7 @@ export class History {
   @Field(() => ID)
   _id: string;
 
+  // "type" para diferenciar la entidad relacionada
   @Prop({ required: true })
   @Field()
   type: string;

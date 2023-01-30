@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AddHistoryInput } from './dto/add-history.input';
 import { CreateItemInput } from './dto/create-item.input';
 import { UpdateItemInput } from './dto/update-item.input';
 import { Item, ItemDocument } from './entities/item.entity';
@@ -22,7 +23,18 @@ export class ItemsService {
           model: item.model,
           serialNumber: item.serialNumber,
           createdBy: item.createdBy,
-          itemHistory: item.whereIsIt,
+        },
+      },
+      { new: true },
+    );
+  }
+
+  async addHistory(history: AddHistoryInput) {
+    return await this.itemModel.findByIdAndUpdate(
+      history._id,
+      {
+        $push: {
+          itemHistory: history.itemHistory,
         },
       },
       { new: true },
@@ -64,7 +76,7 @@ export class ItemsService {
     return await this.itemModel.find({ whereIsIt: whereIsIt });
   }
 
-  async remove(_id: string) {
+  async delete(_id: string) {
     return await this.itemModel.findByIdAndDelete(_id);
   }
 }

@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddHistoryInput {
+  _id: ID!
+  itemHistory: JSONObject!
+}
+
 input CreateEmployeeInput {
   email: String!
   name: String!
@@ -18,7 +23,6 @@ input CreateItemInput {
   model: String!
   name: String!
   serialNumber: String!
-  whereIsIt: String
 }
 
 input CreateStoreInput {
@@ -95,23 +99,27 @@ type Item {
   model: String!
   name: String!
   serialNumber: String!
-  whereIsIt: String
 }
 
-type ItemHistory {
-  action: String!
+interface ItemHistory {
   date: DateTime!
+  ownerType: String!
   relationId: String!
-  type: String!
 }
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
 
 type Mutation {
+  addHistory(input: AddHistoryInput!): Item!
   createEmployee(input: CreateEmployeeInput!): Employee!
   createHistory(input: CreateHistoryInput!): History!
   createItem(input: CreateItemInput!): Item!
   createStore(input: CreateStoreInput!): Store!
   createUser(input: CreateUserInput!): User!
-  removeItem(_id: String!): Item!
+  deleteItem(_id: String!): Item!
   updateEmployee(input: UpdateEmployeeInput!): Employee!
   updateHistory(input: UpdateHistoryInput!): History!
   updateItem(input: UpdateItemInput!): Item!
@@ -165,7 +173,6 @@ input UpdateItemInput {
   model: String
   name: String
   serialNumber: String
-  whereIsIt: String
 }
 
 input UpdateStoreInput {

@@ -5,9 +5,8 @@ import {Button, type BtnProps} from '../../../../components/buttons/Button';
 import FindItemByID from '../findOne/FindItemByID';
 
 type ItemHistory = {
-  whereId: string;
-  enter: string;
-  out: string;
+  relationId: string;
+  date: any;
 };
 
 type Item = {
@@ -33,6 +32,9 @@ export default function ItemDetail() {
     className: 'px-[11px] py-[9.5px] m-1',
     fontSize: 'medium',
   };
+
+  console.log(itemData);
+
   return (
     <>
       <div className="m-4">
@@ -57,11 +59,11 @@ export default function ItemDetail() {
         <p className="">Modelo: {itemData?.model}</p>
         <p>Número serial: {itemData?.serialNumber}</p>
         <div className="">
-          {itemData?.itemHistory ? (
-            itemData.itemHistory.map((history) => (
+          {itemData?.itemHistory?.length ? (
+            itemData?.itemHistory?.map((history) => (
               <>
                 <div>
-                  <p>{history.whereId}</p>
+                  <p>{history?.relationId}</p>
                 </div>
               </>
             ))

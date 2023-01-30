@@ -8,17 +8,18 @@ import SearchBar from '../../../../components/searchbar/SearchBar';
 import CreateItem from '../create/CreateItem';
 import './styles.css';
 import ReactTransitionGroup from '../../../../components/effects/reactTransitionGroup';
+import type {Item} from '../../../../constant/constant';
 
-type Items = {
-  _id: string;
-  name: string;
-  model: string;
-  serialNumber: string;
-  createdBy: {username: string};
-};
+// type Items = {
+//   _id: string;
+//   name: string;
+//   model: string;
+//   serialNumber: string;
+//   createdBy: {username: string};
+// };
 
 type ItemsData = {
-  items: Items[];
+  items: Item[];
 };
 
 const ITEMS = gql`
@@ -28,6 +29,11 @@ const ITEMS = gql`
       name
       model
       serialNumber
+      # itemHistory {
+      #   relationId
+      #   ownerType
+      #   date
+      # }
       createdBy {
         username
       }
