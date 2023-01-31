@@ -2,11 +2,13 @@ import {useQuery, gql} from '@apollo/client';
 import {useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
+import deleteItem from '../delete/deleteItem';
 import FindItemByID from '../findOne/FindItemByID';
 
 type ItemHistory = {
   relationId: string;
-  date: any;
+  ownerType: string;
+  date?: any;
 };
 
 type Item = {
@@ -23,6 +25,8 @@ export default function ItemDetail() {
   const navigate = useNavigate();
   const {_id} = useParams();
 
+  const {handleDelete, error: deleteError} = deleteItem({_id});
+
   const itemData: Item = FindItemByID(_id);
 
   console.log(itemData);
@@ -34,6 +38,26 @@ export default function ItemDetail() {
   };
 
   console.log(itemData);
+
+  const deleteBtnProps: BtnProps = {
+    async onClick(e: Event) {
+      e.preventDefault();
+      if (_id) {
+        console.log('ID deleted ->', _id);
+
+        await handleDelete(_id);
+        navigate('/articulos');
+      }
+
+      if (deleteError) {
+        console.log(deleteError);
+      } else {
+        setProblem('Hay un problema con la ID');
+      }
+    },
+    text: ' ',
+    variant: 'delete',
+  };
 
   return (
     <>
@@ -49,6 +73,7 @@ export default function ItemDetail() {
         <Link to={'/articulos/' + itemData._id + '/edit'} className="">
           <Button {...editBtnProps} />
         </Link>
+        {_id ? <Button {...deleteBtnProps} /> : null}
       </div>
       <div className="flex flex-col items-center justify-center m-5 text-center">
         <div className="flex flex-row items-center">

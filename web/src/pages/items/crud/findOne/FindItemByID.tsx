@@ -13,7 +13,7 @@ const FIND_ONE_ITEM = gql`
       itemHistory {
         relationId
         ownerType
-        date
+        # date
       }
     }
   }

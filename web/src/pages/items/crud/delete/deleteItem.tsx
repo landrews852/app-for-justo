@@ -23,16 +23,16 @@ const DELETE_ITEM = gql`
   }
 `;
 
-export default function DeleteItem({_id}) {
+export default function deleteItem({_id}) {
   const [deleteItem, {error}] = useMutation(DELETE_ITEM, {
     variables: {_id},
     refetchQueries: [{query: ITEMS}, 'Items'],
   });
 
-  const handleDelete = async () => {
+  const handleDelete: () => void = async () => {
     try {
       await deleteItem();
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(err);
     }
   };

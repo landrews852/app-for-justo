@@ -14,7 +14,7 @@ import FindItemByID from '../findOne/FindItemByID';
 // import updateItem from '../items/crud/update/UpdateItems';
 import {useMutation, gql} from '@apollo/client';
 import FindItemBySerialNumber from '../findOne/FindItemBySerialNumber';
-import DeleteItem from '../delete/deleteItem';
+import deleteItem from '../delete/deleteItem';
 
 const UPDATE_ITEM = gql`
   mutation updateItem($input: UpdateItemInput!) {
@@ -56,7 +56,7 @@ export default function ItemDetailEdit() {
   const [whereIsIt, setWhereIsIt] = useState('');
   const [problem, setProblem] = useState('');
 
-  const {handleDelete, error: deleteError} = DeleteItem({_id});
+  const {handleDelete, error: deleteError} = deleteItem({_id});
 
   // console.log(_id, assetData);
   // console.log(typeof assetData);
@@ -79,16 +79,16 @@ export default function ItemDetailEdit() {
 
   const found: any = FindItemBySerialNumber(serialNumber);
 
-  const whereIsItHandle = () => {
-    const type = '';
+  // const whereIsItHandle = () => {
+  //   const type = '';
 
-    const itemHistory = {
-      relationId: '',
-      type: '',
-      action: '',
-      date: Date.now,
-    };
-  };
+  //   const itemHistory = {
+  //     relationId: '',
+  //     type: '',
+  //     action: '',
+  //     date: Date.now,
+  //   };
+  // };
 
   const editBtnProps: BtnProps = {
     async onClick(e: Event) {

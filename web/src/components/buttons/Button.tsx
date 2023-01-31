@@ -103,7 +103,8 @@ const Button = ({
 
     return (
       <button onClick={onClick} className={style()}>
-        <DeleteForeverIcon fontSize={fontSize ? fontSize : 'medium'} /> Eliminar
+        <DeleteForeverIcon fontSize={fontSize ? fontSize : 'medium'} />{' '}
+        {text ? text : 'Eliminar'}
       </button>
     );
   }

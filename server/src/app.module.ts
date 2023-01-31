@@ -18,6 +18,7 @@ import { HistoryModule } from './histories/history.module';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
+      installSubscriptionHandlers: true,
     }),
     UsersModule,
     ItemsModule,

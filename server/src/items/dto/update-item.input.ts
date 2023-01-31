@@ -6,7 +6,4 @@ import { InputType, Field, PartialType, ID } from '@nestjs/graphql';
 export class UpdateItemInput extends PartialType(CreateItemInput) {
   @Field(() => ID)
   _id: string;
-
-  // @Field(() => ItemHistory, { nullable: true })
-  // itemHistory: ItemHistory;
 }

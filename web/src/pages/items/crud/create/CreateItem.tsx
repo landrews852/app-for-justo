@@ -20,7 +20,6 @@ const CREATE_ITEM = gql`
       name
       model
       serialNumber
-      whereIsIt
       createdBy {
         _id
       }
@@ -52,7 +51,7 @@ export default function CreateItem(props: any) {
   const [model, setModel] = useState('');
   const [serialNumber, setSerialNumber] = useState('');
   const [createdBy, setCreatedBy] = useState('');
-  const [whereIsIt, setWhereIsIt] = useState('');
+  // const [whereIsIt, setWhereIsIt] = useState('');
 
   const [createItem, {error, data}] = useMutation<
     {createItem: NewItem},
@@ -63,7 +62,6 @@ export default function CreateItem(props: any) {
         name,
         model,
         serialNumber,
-        whereIsIt,
         createdBy,
       },
     },
@@ -165,7 +163,7 @@ export default function CreateItem(props: any) {
             }}
           />
         </div>
-        <input
+        {/* <input
           className="m-2 p-1 rounded"
           type="text"
           name="whereIsIt"
@@ -175,7 +173,7 @@ export default function CreateItem(props: any) {
           onChange={(e) => {
             setWhereIsIt(e.target.value);
           }}
-        />
+        /> */}
         <div className="flex">
           <span className="self-center">*</span>
           <input
