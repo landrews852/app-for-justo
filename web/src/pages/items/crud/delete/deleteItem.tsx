@@ -7,7 +7,6 @@ const ITEMS = gql`
       name
       model
       serialNumber
-      whereIsIt
       createdBy {
         username
       }
@@ -16,14 +15,14 @@ const ITEMS = gql`
 `;
 
 const DELETE_ITEM = gql`
-  mutation deleteItem($_id: String!) {
+  mutation deleteItem($_id: ID!) {
     deleteItem(_id: $_id) {
       _id
     }
   }
 `;
 
-export default function deleteItem({_id}) {
+export default function deleteItem({_id}: Record<string, unknown>) {
   const [deleteItem, {error}] = useMutation(DELETE_ITEM, {
     variables: {_id},
     refetchQueries: [{query: ITEMS}, 'Items'],

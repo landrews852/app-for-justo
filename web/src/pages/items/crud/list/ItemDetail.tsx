@@ -1,33 +1,29 @@
-import {useQuery, gql} from '@apollo/client';
+/* eslint-disable @typescript-eslint/indent */
+
 import {useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Link, Params, useNavigate, useParams} from 'react-router-dom';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
 import deleteItem from '../delete/deleteItem';
-import FindItemByID from '../findOne/FindItemByID';
+import findItemByID from '../findOne/FindItemByID';
+import AddHistory from '../update/addHistory';
+import type {GridColDef, GridRowsProp} from '@mui/x-data-grid';
+import {DataGrid, GridValueGetterParams} from '@mui/x-data-grid';
+import type {Item, ItemHistory} from '../../../../constant/constant';
 
-type ItemHistory = {
-  relationId: string;
-  ownerType: string;
-  date?: any;
-};
-
-type Item = {
-  _id: string;
-  name: string;
-  model: string;
-  serialNumber: string;
-  createdBy: {username: string};
-  itemHistory: ItemHistory[];
-  //   itemHistory: {whereId: string; enter: string; out: string};
-};
+const columns: GridColDef[] = [
+  {field: 'id', headerName: 'ID', width: 130},
+  {field: 'relationId', headerName: 'ID Relación', width: 130},
+  {field: 'ownerType', headerName: 'Relación', width: 90},
+  {field: 'date', headerName: 'Fecha', width: 1200},
+];
 
 export default function ItemDetail() {
   const navigate = useNavigate();
   const {_id} = useParams();
-
+  const [problem, setProblem] = useState<string>('');
   const {handleDelete, error: deleteError} = deleteItem({_id});
 
-  const itemData: Item = FindItemByID(_id);
+  const itemData: Item = findItemByID({_id});
 
   console.log(itemData);
 
@@ -37,27 +33,33 @@ export default function ItemDetail() {
     fontSize: 'medium',
   };
 
-  console.log(itemData);
-
   const deleteBtnProps: BtnProps = {
-    async onClick(e: Event) {
+    async onClick(e) {
       e.preventDefault();
       if (_id) {
         console.log('ID deleted ->', _id);
 
-        await handleDelete(_id);
+        handleDelete();
         navigate('/articulos');
       }
 
       if (deleteError) {
         console.log(deleteError);
-      } else {
         setProblem('Hay un problema con la ID');
       }
     },
     text: ' ',
     variant: 'delete',
   };
+
+  const rows = itemData?.itemHistory?.length
+    ? itemData?.itemHistory?.map((history: ItemHistory) => ({
+        id: history?.itemHistoryId,
+        relationId: history?.relationId,
+        ownerType: history?.ownerType,
+        date: history?.date,
+      }))
+    : false;
 
   return (
     <>
@@ -81,22 +83,26 @@ export default function ItemDetail() {
             {itemData?.name}
           </h1>
         </div>
-        <p className="">Modelo: {itemData?.model}</p>
-        <p>Número serial: {itemData?.serialNumber}</p>
-        <div className="">
-          {itemData?.itemHistory?.length ? (
-            itemData?.itemHistory?.map((history) => (
-              <>
-                <div>
-                  <p>{history?.relationId}</p>
-                </div>
-              </>
-            ))
-          ) : (
-            <p className="my-2 text-xl italic">
-              ( Aún no existe un historial )
-            </p>
-          )}
+        <div className="rounded-sm bg-gray-200 dark:bg-slate-800 p-6 w-[90%] text-left">
+          <p className="mb-2">
+            <b className="ml-[-4px]">Modelo:</b> {itemData?.model}
+          </p>
+          <p>
+            <b className="ml-[-4px]">Número de serie:</b>{' '}
+            {itemData?.serialNumber}
+          </p>
+        </div>
+        <div className="m-6">
+          <AddHistory />
+        </div>
+        <div className="w-full h-[500px]">
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+          />
         </div>
       </div>
     </>

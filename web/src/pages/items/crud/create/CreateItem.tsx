@@ -34,7 +34,6 @@ const ITEMS = gql`
       name
       model
       serialNumber
-      whereIsIt
       createdBy {
         username
       }
@@ -65,7 +64,7 @@ export default function CreateItem(props: any) {
         createdBy,
       },
     },
-    refetchQueries: [{query: ITEMS}, 'Items'],
+    refetchQueries: [{query: ITEMS}],
   });
 
   const found: any = FindItemBySerialNumber(serialNumber);

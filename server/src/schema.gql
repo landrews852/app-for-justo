@@ -4,7 +4,10 @@
 
 input AddHistoryInput {
   _id: ID!
-  itemHistory: JSONObject!
+  date: String!
+  ownerType: String!
+  relationId: String!
+  relationName: String!
 }
 
 input CreateEmployeeInput {
@@ -95,22 +98,24 @@ type History {
 type Item {
   _id: ID!
   createdBy: User
+  date: String!
   itemHistory: [ItemHistory!]!
+  itemHistoryId: ID!
   model: String!
   name: String!
+  ownerType: String!
+  relationId: String!
+  relationName: String!
   serialNumber: String!
 }
 
-interface ItemHistory {
-  date: DateTime!
+type ItemHistory {
+  date: String!
+  itemHistoryId: ID!
   ownerType: String!
   relationId: String!
+  relationName: String!
 }
-
-"""
-The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSONObject
 
 type Mutation {
   addHistory(input: AddHistoryInput!): Item!

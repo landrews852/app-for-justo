@@ -10,8 +10,7 @@ import {
   type Item,
   successMsgCss,
 } from '../../../../constant/constant';
-import FindItemByID from '../findOne/FindItemByID';
-// import updateItem from '../items/crud/update/UpdateItems';
+import findItemByID from '../findOne/FindItemByID';
 import {useMutation, gql} from '@apollo/client';
 import FindItemBySerialNumber from '../findOne/FindItemBySerialNumber';
 import deleteItem from '../delete/deleteItem';
@@ -22,7 +21,6 @@ const UPDATE_ITEM = gql`
       name
       model
       serialNumber
-      whereIsIt
     }
   }
 `;
@@ -34,7 +32,12 @@ const ITEMS = gql`
       name
       model
       serialNumber
-      whereIsIt
+      itemHistory {
+        itemHistoryId
+        relationId
+        ownerType
+        date
+      }
       createdBy {
         username
       }
@@ -46,15 +49,16 @@ export default function ItemDetailEdit() {
   const navigate = useNavigate();
   const {_id} = useParams();
 
-  const assetData: any = FindItemByID(_id);
+  const assetData: any = findItemByID(_id);
 
   console.log(assetData);
 
-  const [name, setName] = useState(assetData.name);
-  const [model, setModel] = useState(assetData.model);
-  const [serialNumber, setSerialNumber] = useState(assetData.serialNumber);
-  const [whereIsIt, setWhereIsIt] = useState('');
-  const [problem, setProblem] = useState('');
+  const [name, setName] = useState<string>(assetData.name);
+  const [model, setModel] = useState<string>(assetData.model);
+  const [serialNumber, setSerialNumber] = useState<string>(
+    assetData.serialNumber,
+  );
+  const [problem, setProblem] = useState<string>('');
 
   const {handleDelete, error: deleteError} = deleteItem({_id});
 
@@ -71,10 +75,9 @@ export default function ItemDetailEdit() {
         name,
         model,
         serialNumber,
-        whereIsIt,
       },
     },
-    refetchQueries: [{query: ITEMS}, 'Items'],
+    refetchQueries: [{query: ITEMS}],
   });
 
   const found: any = FindItemBySerialNumber(serialNumber);
@@ -91,7 +94,7 @@ export default function ItemDetailEdit() {
   // };
 
   const editBtnProps: BtnProps = {
-    async onClick(e: Event) {
+    async onClick(e) {
       e.preventDefault();
       if (error) {
         console.log(error);
@@ -107,9 +110,9 @@ export default function ItemDetailEdit() {
         }
       }
 
-      if (name || model || serialNumber || whereIsIt) {
+      if (name || model || serialNumber) {
         setProblem('');
-        console.log('update?', _id, name, model, serialNumber, whereIsIt);
+        console.log('update?', _id, name, model, serialNumber);
         await updateItem();
       } else {
         setProblem('Se requiere llenar al menos un campo del formulario.');
@@ -120,17 +123,16 @@ export default function ItemDetailEdit() {
   };
 
   const deleteBtnProps: BtnProps = {
-    async onClick(e: Event) {
+    async onClick(e) {
       e.preventDefault();
       if (_id) {
         console.log('ID deleted ->', _id);
 
-        await handleDelete(_id);
+        handleDelete();
       }
 
       if (deleteError) {
         console.log(deleteError);
-      } else {
         setProblem('Hay un problema con la ID');
       }
     },
@@ -138,10 +140,10 @@ export default function ItemDetailEdit() {
   };
 
   useEffect(() => {
-    if (name || model || serialNumber || whereIsIt) {
+    if (name || model || serialNumber) {
       setProblem('');
     }
-  }, [name, model, serialNumber, whereIsIt]);
+  }, [name, model, serialNumber]);
 
   return (
     <div className="w-full flex justify-center">
@@ -193,7 +195,7 @@ export default function ItemDetailEdit() {
             setSerialNumber(e.target.value);
           }}
         />
-        <p className="mt-4">
+        {/* <p className="mt-4">
           ¿Dónde se encuentra?{' '}
           <i className="text-sm">{'(ID/correo de empleado o bodega)'}</i>
         </p>
@@ -206,7 +208,7 @@ export default function ItemDetailEdit() {
           onChange={(e) => {
             setWhereIsIt(e.target.value);
           }}
-        />
+        /> */}
         <div className="flex justify-center">
           <Button
             variant="goBack"

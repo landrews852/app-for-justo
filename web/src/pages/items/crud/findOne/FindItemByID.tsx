@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {useQuery, gql} from '@apollo/client';
+import type {Params} from 'react-router-dom';
 import type {Item} from '../../../../constant/constant';
 
 const FIND_ONE_ITEM = gql`
@@ -11,20 +12,20 @@ const FIND_ONE_ITEM = gql`
       model
       serialNumber
       itemHistory {
+        itemHistoryId
         relationId
         ownerType
-        # date
+        date
       }
     }
   }
 `;
 
-type ID = {_id?: string};
 type ItemData = {
   item: Item;
 };
 
-export default function FindItemByID(props: string) {
+export default function FindItemByID({_id}: Params) {
   type ItemsQueryProps = {
     data?: ItemData;
     loading: boolean;
@@ -33,12 +34,10 @@ export default function FindItemByID(props: string) {
 
   const {data, loading, error}: ItemsQueryProps = useQuery<
     ItemData,
-    {input: ID}
+    {input: Record<string, unknown>}
   >(FIND_ONE_ITEM, {
     variables: {
-      input: {
-        _id: props,
-      },
+      input: {_id},
     },
   });
 
@@ -53,12 +52,4 @@ export default function FindItemByID(props: string) {
   }
 
   return data?.item;
-
-  //   Return (
-  //     <div className="container">
-  //       <p>{data?.item.name}</p>
-  //       <p>{data?.item.model}</p>
-  //       <p>{data?.item.serialNumber}</p>
-  //     </div>
-  //   );
 }

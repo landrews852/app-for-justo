@@ -1,32 +1,19 @@
-// import { Field, ObjectType, InputType, ID } from '@nestjs/graphql';
+import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
 
-// // action para diferenciar si el artículo se está entregando o retirando
-// // enum action {
-// //   in = 'Ingreso',
-// //   out = 'Retiro',
-// // }
+@ObjectType({ isAbstract: true })
+export class ItemHistory {
+  @Field(() => ID)
+  itemHistoryId: string;
 
-// // ownerType para diferenciar si el ingreso/retiro se realiza a un empleado o bodega
-// // enum ownerType {
-// //   store = 'Bodega',
-// //   employee = 'Empleado',
-// // }
+  @Field()
+  relationId: string;
 
-// // ItemHistory registra el historial para cada movimiento de cada artículo
-// @ObjectType()
-// export class ItemHistory {
-//   @Field(() => ID)
-//   _id: string;
+  @Field()
+  relationName: string;
 
-//   @Field()
-//   relationId: string;
+  @Field()
+  ownerType: string;
 
-//   @Field()
-//   holderType: 'Bodega' | 'Empleado';
-
-//   @Field()
-//   action: 'in' | 'out';
-
-//   // @Field()
-//   // date: Date;
-// }
+  @Field()
+  date: string;
+}

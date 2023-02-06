@@ -5,6 +5,7 @@ import { AddHistoryInput } from './dto/add-history.input';
 import { CreateItemInput } from './dto/create-item.input';
 import { UpdateItemInput } from './dto/update-item.input';
 import { Item, ItemDocument } from './entities/item.entity';
+import { v1 as uuidv1 } from 'uuid';
 
 @Injectable()
 export class ItemsService {
@@ -30,11 +31,20 @@ export class ItemsService {
   }
 
   async addHistory(history: AddHistoryInput) {
+    const { relationId, relationName, ownerType, date } = history;
+    const id = uuidv1();
+
     return await this.itemModel.findByIdAndUpdate(
       history._id,
       {
         $push: {
-          itemHistory: history.itemHistory,
+          itemHistory: {
+            itemHistoryId: id,
+            relationId,
+            relationName,
+            ownerType,
+            date,
+          },
         },
       },
       { new: true },
@@ -72,9 +82,9 @@ export class ItemsService {
     return await this.itemModel.find({ createdBy: userId });
   }
 
-  async findWhereIsItById(whereIsIt: any) {
-    return await this.itemModel.find({ whereIsIt: whereIsIt });
-  }
+  // async findWhereIsItById(whereIsIt: any) {
+  //   return await this.itemModel.find({ whereIsIt: whereIsIt });
+  // }
 
   async delete(_id: string) {
     return await this.itemModel.findByIdAndDelete(_id);

@@ -10,6 +10,7 @@ import { ItemsModule } from './items/items.module';
 import { StoresModule } from './stores/stores.module';
 import { EmployeesModule } from './employees/employees.module';
 import { HistoryModule } from './histories/history.module';
+// import GraphQLJSON from 'graphql-type-json';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { HistoryModule } from './histories/history.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       installSubscriptionHandlers: true,
+      // resolvers: { JSON: GraphQLJSON },
     }),
     UsersModule,
     ItemsModule,
