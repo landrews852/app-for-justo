@@ -3,18 +3,19 @@ import FileOpenRoundedIcon from '@mui/icons-material/FileOpenRounded';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import SyncRoundedIcon from '@mui/icons-material/SyncRounded';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import type {MouseEventHandler} from 'react';
 
 type BtnProps = {
-  onClick?: (e: Event) => void;
-  types?: any;
+  onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
+  types?: 'button' | 'submit' | 'reset' | undefined;
   text?: any;
   className?: string;
   variant?: string;
-  fontSize?: string;
+  fontSize?: 'small' | 'medium' | 'inherit' | 'large' | undefined;
   href?: any;
 };
 
-const Button = ({
+const Button: any = ({
   onClick,
   types,
   text,
@@ -103,7 +104,8 @@ const Button = ({
 
     return (
       <button onClick={onClick} className={style()}>
-        <DeleteForeverIcon fontSize={fontSize ? fontSize : 'medium'} /> Eliminar
+        <DeleteForeverIcon fontSize={fontSize ? fontSize : 'medium'} />{' '}
+        {text ? text : 'Eliminar'}
       </button>
     );
   }

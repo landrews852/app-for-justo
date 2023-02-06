@@ -8,18 +8,7 @@ import SearchBar from '../../../../components/searchbar/SearchBar';
 import CreateItem from '../create/CreateItem';
 import './styles.css';
 import ReactTransitionGroup from '../../../../components/effects/reactTransitionGroup';
-
-type Items = {
-  _id: string;
-  name: string;
-  model: string;
-  serialNumber: string;
-  createdBy: {username: string};
-};
-
-type ItemsData = {
-  items: Items[];
-};
+import type {Item} from '../../../../constant/constant';
 
 const ITEMS = gql`
   {
@@ -28,6 +17,12 @@ const ITEMS = gql`
       name
       model
       serialNumber
+      itemHistory {
+        itemHistoryId
+        relationId
+        ownerType
+        date
+      }
       createdBy {
         username
       }
@@ -36,7 +31,6 @@ const ITEMS = gql`
 `;
 
 export default function ItemsDataTable() {
-  const [disabled, setDisabled] = useState<boolean>(true);
   const [pageSize, setPageSize] = useState<number>(10);
   const [page, setPage] = useState(0);
   const navigate = useNavigate();
@@ -109,12 +103,12 @@ export default function ItemsDataTable() {
   ];
 
   type ItemsQueryProps = {
-    data?: ItemsData;
+    data?: Item[];
     loading: boolean;
     error?: any;
   };
 
-  const {data, loading, error}: ItemsQueryProps = useQuery<ItemsData>(ITEMS);
+  const {data, loading, error}: ItemsQueryProps = useQuery(ITEMS);
   console.log('data', data);
 
   if (loading) {

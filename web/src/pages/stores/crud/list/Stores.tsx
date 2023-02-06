@@ -55,7 +55,7 @@ export default function StoresDataTable() {
             );
           console.log(thisRow.id);
 
-          navigate('/articulos/' + thisRow.id + '/edit');
+          navigate('/bodegas/' + thisRow.id + '/edit');
         };
 
         return <Button onClick={onClick} variant="edit" />;
@@ -92,6 +92,7 @@ export default function StoresDataTable() {
     },
     {field: 'name', headerName: 'Nombre', width: 250},
     {field: 'location', headerName: 'Ubicación', width: 250},
+    {field: 'id', headerName: 'ID', width: 250},
   ];
 
   type StoresQueryProps = {

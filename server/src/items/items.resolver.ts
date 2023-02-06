@@ -13,6 +13,7 @@ import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { FindItemInput } from './dto/find-item.input';
 import { UpdateItemInput } from './dto/update-item.input';
+import { AddHistoryInput } from './dto/add-history.input';
 
 @Resolver(() => Item)
 export class ItemsResolver {
@@ -31,6 +32,12 @@ export class ItemsResolver {
   async updateItem(@Args('input') item: UpdateItemInput) {
     console.log(item);
     return this.itemsService.update(item);
+  }
+
+  @Mutation(() => Item)
+  async addHistory(@Args('input') history: AddHistoryInput) {
+    console.log(history);
+    return this.itemsService.addHistory(history);
   }
 
   @Query(() => [Item], { name: 'items' })
@@ -57,7 +64,7 @@ export class ItemsResolver {
   }
 
   @Mutation(() => Item)
-  async removeItem(@Args('_id') _id: string) {
-    return await this.itemsService.remove(_id);
+  async deleteItem(@Args('_id') _id: string) {
+    return await this.itemsService.delete(_id);
   }
 }

@@ -1,16 +1,23 @@
+export type ItemHistory = {
+  itemHistoryId?: string;
+  relationId?: string;
+  ownerType?: string;
+  date?: string;
+};
+
 export type Item = {
   _id?: string;
   name?: string;
   model?: string;
   serialNumber?: string;
-  whereIsIt?: string;
-  createdBy?: string;
+  itemHistory?: ItemHistory[];
+  createdBy?: {username: string};
 };
 
 export type User = {
-  _id: string;
-  username: string;
-  email: string;
+  _id?: string;
+  username?: string;
+  email?: string;
   itemsCreated?: Item[];
 };
 

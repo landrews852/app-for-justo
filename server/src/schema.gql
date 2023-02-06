@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddHistoryInput {
+  _id: ID!
+  date: String!
+  ownerType: String!
+  relationId: String!
+  relationName: String!
+}
+
 input CreateEmployeeInput {
   email: String!
   name: String!
@@ -18,7 +26,6 @@ input CreateItemInput {
   model: String!
   name: String!
   serialNumber: String!
-  whereIsIt: String
 }
 
 input CreateStoreInput {
@@ -91,27 +98,33 @@ type History {
 type Item {
   _id: ID!
   createdBy: User
+  date: String!
   itemHistory: [ItemHistory!]!
+  itemHistoryId: ID!
   model: String!
   name: String!
+  ownerType: String!
+  relationId: String!
+  relationName: String!
   serialNumber: String!
-  whereIsIt: String
 }
 
 type ItemHistory {
-  action: String!
-  date: DateTime!
+  date: String!
+  itemHistoryId: ID!
+  ownerType: String!
   relationId: String!
-  type: String!
+  relationName: String!
 }
 
 type Mutation {
+  addHistory(input: AddHistoryInput!): Item!
   createEmployee(input: CreateEmployeeInput!): Employee!
   createHistory(input: CreateHistoryInput!): History!
   createItem(input: CreateItemInput!): Item!
   createStore(input: CreateStoreInput!): Store!
   createUser(input: CreateUserInput!): User!
-  removeItem(_id: String!): Item!
+  deleteItem(_id: String!): Item!
   updateEmployee(input: UpdateEmployeeInput!): Employee!
   updateHistory(input: UpdateHistoryInput!): History!
   updateItem(input: UpdateItemInput!): Item!
@@ -165,7 +178,6 @@ input UpdateItemInput {
   model: String
   name: String
   serialNumber: String
-  whereIsIt: String
 }
 
 input UpdateStoreInput {

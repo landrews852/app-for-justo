@@ -11,9 +11,6 @@ export class CreateItemInput {
   @Field()
   serialNumber: string;
 
-  @Field({ nullable: true })
-  whereIsIt?: string;
-
   @Field()
   createdBy: string;
 }
