@@ -11,6 +11,7 @@ const ADD_HISTORY = gql`
     addHistory(input: $input) {
       _id
       relationId
+      relationName
       ownerType
       date
     }
@@ -38,7 +39,6 @@ const ITEM = gql`
 const ItemHistoryForm: React.FC = () => {
   const {_id} = useParams();
   const client = useApolloClient();
-  const [name, setName] = useState<string>('');
   const [date, setDate] = useState<string>('');
   const [ownerType, setOwnerType] = useState<'Bodega' | 'Empleado'>();
   const [relations, setRelations] = useState<Array<Record<string, unknown>>>(
@@ -116,8 +116,10 @@ const ItemHistoryForm: React.FC = () => {
     const selectedRelation: Array<Record<string, unknown>> = relations.filter(
       (relation) => relation._id === relationId,
     );
-    if (selectedRelation) {
+
+    if (selectedRelation.length > 0) {
       setRelationName(selectedRelation[0]?.name as string);
+      console.log('relation name', relationName);
     } else {
       Error('no coincide la ID con ningún nombre');
     }
@@ -159,6 +161,7 @@ const ItemHistoryForm: React.FC = () => {
         value={relationId}
         onChange={(e) => {
           setRelationId(e.target.value);
+          set;
         }}
         className="mx-auto mt-4 py-1 px-8 active:outline-none"
         disabled={!ownerType}
@@ -167,7 +170,7 @@ const ItemHistoryForm: React.FC = () => {
           Seleccione una opción
         </option>
         {relations.map((relation) => (
-          <option key={relation._id} value={relation}>
+          <option key={relation._id} value={relation._id}>
             {relation.name}
           </option>
         ))}

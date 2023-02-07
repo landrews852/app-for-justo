@@ -14,6 +14,7 @@ const FIND_ONE_ITEM = gql`
       itemHistory {
         itemHistoryId
         relationId
+        relationName
         ownerType
         date
       }

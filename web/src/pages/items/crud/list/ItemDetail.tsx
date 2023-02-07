@@ -13,6 +13,7 @@ import type {Item, ItemHistory} from '../../../../constant/constant';
 const columns: GridColDef[] = [
   {field: 'id', headerName: 'ID', width: 130},
   {field: 'relationId', headerName: 'ID Relación', width: 130},
+  {field: 'relationName', headerName: 'Nombre Relación', width: 130},
   {field: 'ownerType', headerName: 'Relación', width: 90},
   {field: 'date', headerName: 'Fecha', width: 1200},
 ];
@@ -56,6 +57,7 @@ export default function ItemDetail() {
     ? itemData?.itemHistory?.map((history: ItemHistory) => ({
         id: history?.itemHistoryId,
         relationId: history?.relationId,
+        relationName: history?.relationName,
         ownerType: history?.ownerType,
         date: history?.date,
       }))
@@ -95,7 +97,7 @@ export default function ItemDetail() {
         <div className="m-6">
           <AddHistory />
         </div>
-        <div className="w-full h-[500px]">
+        <div className="w-full h-[500px] mb-10">
           <DataGrid
             rows={rows}
             columns={columns}
