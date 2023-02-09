@@ -6,7 +6,7 @@ export default function Navbar() {
     <>
       {/* <div className="sticky inset-x-0 top-0 bg-white justify-around flex flex-row py-2"> */}
       <div className={styles.nav}>
-        <Link to="/users">
+        <Link to="/">
           <p className="text-xl font-bold">Inicio</p>
         </Link>
         <Link to="/articulos">

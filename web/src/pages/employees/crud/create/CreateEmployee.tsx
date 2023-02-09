@@ -110,7 +110,7 @@ export default function CreateEmployee(props: any) {
         />
         <input
           className="m-2 p-1 rounded"
-          type="text"
+          type="email"
           name="email"
           placeholder="Correo"
           autoComplete="off"
