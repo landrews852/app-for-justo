@@ -51,7 +51,7 @@ export class ItemsResolver {
       return this.itemsService.findById(input._id);
     }
     if (input.serialNumber) {
-      return this.itemsService.findOne(input.serialNumber);
+      return this.itemsService.findBySerialNumber(input.serialNumber);
     } else
       return Error(
         'Es necesario el "Número de serie" o el "ID" para realizar la búsqueda',

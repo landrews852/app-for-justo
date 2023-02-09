@@ -30,6 +30,15 @@
     "react/jsx-curly-newline": "off",
     "comma-dangle": [2, "always-multiline"],
     "arrow-parens": "off",
-    "capitalized-comments": "off"
+    "capitalized-comments": "off",
+    "operator-linebreak": [
+      "error",
+      "before",
+      {
+        "overrides": {
+          "=": "after"
+        }
+      }
+    ]
   }
 }

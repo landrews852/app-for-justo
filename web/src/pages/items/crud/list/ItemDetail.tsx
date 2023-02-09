@@ -104,6 +104,11 @@ export default function ItemDetail() {
             pageSize={5}
             rowsPerPageOptions={[5]}
             checkboxSelection
+            initialState={{
+              sorting: {
+                sortModel: [{field: 'date', sort: 'desc'}],
+              },
+            }}
           />
         </div>
       </div>

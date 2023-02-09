@@ -9,10 +9,10 @@ import Home from './pages/home/Home';
 import UsersList from './pages/users/crud/list/Users';
 import ItemsDataTable from './pages/items/crud/list/Items';
 import ItemDetail from './pages/items/crud/list/ItemDetail';
-import ItemDetailEdit from './pages/items/crud/update/itemDetailEdit';
+import ItemEdit from './pages/items/crud/update/itemEdit';
 import {useMemo} from 'react';
 import EmployeeDataTable from './pages/employees/crud/list/Employees';
-import StoresDataTable from './pages/stores/crud/list/stores';
+import StoresDataTable from './pages/stores/crud/list/Stores';
 
 export default function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -39,7 +39,7 @@ export default function App() {
             <Route path="/users" element={<UsersList />} />
             <Route path="/articulos" element={<ItemsDataTable />} />
             <Route path="/articulos/:_id" element={<ItemDetail />} />
-            <Route path="/articulos/:_id/edit" element={<ItemDetailEdit />} />
+            <Route path="/articulos/:_id/edit" element={<ItemEdit />} />
             <Route path="/empleados" element={<EmployeeDataTable />} />
             {/* <Route path="/empleados/:_id" element={<EmployeeDetail />} />
             <Route path="/empleados/:_id/edit" element={<EmployeeDetailEdit />} /> */}

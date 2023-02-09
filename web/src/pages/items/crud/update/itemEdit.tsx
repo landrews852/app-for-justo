@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable new-cap */
@@ -32,20 +31,11 @@ const ITEMS = gql`
       name
       model
       serialNumber
-      itemHistory {
-        itemHistoryId
-        relationId
-        ownerType
-        date
-      }
-      createdBy {
-        username
-      }
     }
   }
 `;
 
-export default function ItemDetailEdit() {
+export default function ItemEdit() {
   const navigate = useNavigate();
   const {_id} = useParams();
 
@@ -53,11 +43,9 @@ export default function ItemDetailEdit() {
 
   console.log(assetData);
 
-  const [name, setName] = useState<string>(assetData.name);
-  const [model, setModel] = useState<string>(assetData.model);
-  const [serialNumber, setSerialNumber] = useState<string>(
-    assetData.serialNumber,
-  );
+  const [name, setName] = useState<string>('');
+  const [model, setModel] = useState<string>('');
+  const [serialNumber, setSerialNumber] = useState<string>('');
   const [problem, setProblem] = useState<string>('');
 
   const {handleDelete, error: deleteError} = deleteItem({_id});
@@ -80,18 +68,8 @@ export default function ItemDetailEdit() {
     refetchQueries: [{query: ITEMS}],
   });
 
-  const found: any = FindItemBySerialNumber(serialNumber);
-
-  // const whereIsItHandle = () => {
-  //   const type = '';
-
-  //   const itemHistory = {
-  //     relationId: '',
-  //     type: '',
-  //     action: '',
-  //     date: Date.now,
-  //   };
-  // };
+  const found: Record<string, unknown> | boolean =
+    FindItemBySerialNumber(serialNumber);
 
   const editBtnProps: BtnProps = {
     async onClick(e) {
@@ -160,36 +138,51 @@ export default function ItemDetailEdit() {
         ) : null}
 
         <p className="mt-4">Nombre</p>
+        <i className="text-xs opacity-75">
+          {'('}
+          {assetData?.name}
+          {')'}
+        </i>
         <input
           className="m-2"
           type="text"
           name="name"
           autoComplete="off"
-          placeholder={assetData?.name}
+          placeholder="Ingrese nuevo nombre"
           value={name}
           onChange={(e) => {
             setName(e.target.value);
           }}
         />
         <p className="mt-4">Modelo</p>
+        <i className="text-xs opacity-75">
+          {'('}
+          {assetData?.model}
+          {')'}
+        </i>
         <input
           className="m-2"
           type="text"
           name="model"
           autoComplete="off"
-          placeholder={assetData?.model}
+          placeholder="Ingrese nuevo modelo"
           value={model}
           onChange={(e) => {
             setModel(e.target.value);
           }}
         />
         <p className="mt-4">Número de serie</p>
+        <i className="text-xs opacity-75">
+          {'('}
+          {assetData?.serialNumber}
+          {')'}
+        </i>
         <input
           className="m-2"
           type="text"
           name="serialNumber"
           autoComplete="off"
-          placeholder={assetData?.serialNumber}
+          placeholder="Ingrese nuevo número de serie"
           value={serialNumber}
           onChange={(e) => {
             setSerialNumber(e.target.value);
