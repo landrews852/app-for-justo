@@ -15,8 +15,10 @@ import EmployeeDataTable from './pages/employees/crud/list/Employees';
 import StoresDataTable from './pages/stores/crud/list/Stores';
 import Register from './pages/account/register/Register';
 import Account from './pages/account/account/Account';
+import Login from './pages/account/login/Login';
 import {AuthContextProvider} from './context/AuthContext';
 import {AccountRoutes} from './pages/account';
+import ProtectedRoute from './pages/account/ProtectedRoute';
 
 export default function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -40,9 +42,18 @@ export default function App() {
           {/* <Sidebar /> */}
           <AuthContextProvider>
             <Routes>
-              <Route path="/" element={<Home />} />
-              {/* <Route path="/cuenta" element={<AccountRoutes />} /> */}
+              {/* <Route path="/" element={<Home />} /> */}
+              {/* <Route path="/cuenta/" element={<AccountRoutes />} /> */}
+              <Route path="/" element={<Login />} />
               <Route path="/cuenta/registro" element={<Register />} />
+              <Route
+                path="/cuenta"
+                element={
+                  <ProtectedRoute>
+                    <Account />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/users" element={<UsersList />} />
               <Route path="/articulos" element={<ItemsDataTable />} />
               <Route path="/articulos/:_id" element={<ItemDetail />} />

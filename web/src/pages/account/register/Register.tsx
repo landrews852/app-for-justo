@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {Button} from '../../../components/buttons/Button';
 import {UserAuth} from '../../../context/AuthContext';
@@ -32,7 +32,7 @@ const Register = () => {
         <h1 className="text-2xl font-bold py-4">Regístrate</h1>
         <p className="mb-4">
           ¿Ya tienes una cuenta?{' '}
-          <Link to="/registrarse" className="underline">
+          <Link to="/cuenta/login" className="underline">
             Ingresa aquí.
           </Link>
         </p>

@@ -1,4 +1,4 @@
-import {createContext, useContext} from 'react';
+import {createContext, useContext, useEffect, useState} from 'react';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -6,8 +6,7 @@ import {
   onAuthStateChanged,
 } from '@firebase/auth';
 import {auth} from '../firebase';
-
-const UserContext = createContext();
+import {Password} from '@mui/icons-material';
 
 type NewUser = {
   email: string;
@@ -15,12 +14,33 @@ type NewUser = {
   UserCredential: any;
 };
 
+const UserContext = createContext({});
+
 export const AuthContextProvider = ({children}) => {
-  const createUser = async (email, password): Promise<NewUser> =>
+  const [user, setUser] = useState({});
+
+  const createUser = async (email, password) =>
     createUserWithEmailAndPassword(auth, email, password);
 
+  const login = (email, password) =>
+    signInWithEmailAndPassword(auth, email, password);
+
+  const logout = async () => signOut(auth);
+
+  useEffect(() => {
+    const unsuscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log(currentUser);
+      setUser(currentUser);
+    });
+    return () => {
+      unsuscribe();
+    };
+  }, []);
+
   return (
-    <UserContext.Provider value={{createUser}}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{createUser, user, login, logout}}>
+      {children}
+    </UserContext.Provider>
   );
 };
 

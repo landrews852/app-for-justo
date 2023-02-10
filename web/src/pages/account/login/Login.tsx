@@ -8,20 +8,26 @@
 //   }
 // `;
 import {useState} from 'react';
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
 import {Button} from '../../../components/buttons/Button';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import {UserAuth} from '../../../context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const navigate = useNavigate();
+
+  const {login} = UserAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
+      await login(email, password);
+      navigate('/cuenta');
+      console.log('Has ingresado como', email);
     } catch (error) {
       setError(error.message);
     }
@@ -46,7 +52,9 @@ const Login = () => {
             className="w-full"
             type="email"
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           />
         </div>
         <div>
@@ -55,14 +63,12 @@ const Login = () => {
             className="w-full"
             type="password"
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
           />
         </div>
-        <Button
-          type="submit"
-          text="Ingresar"
-          className="my-8 focus:outline-none"
-        />
+        <Button text="Ingresar" className="my-8 focus:outline-none" />
         {error && <p>{error}</p>}
       </form>
     </>
