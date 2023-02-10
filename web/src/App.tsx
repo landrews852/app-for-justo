@@ -9,10 +9,16 @@ import Home from './pages/home/Home';
 import UsersList from './pages/users/crud/list/Users';
 import ItemsDataTable from './pages/items/crud/list/Items';
 import ItemDetail from './pages/items/crud/list/ItemDetail';
-import ItemDetailEdit from './pages/items/crud/update/itemDetailEdit';
+import ItemEdit from './pages/items/crud/update/itemEdit';
 import {useMemo} from 'react';
 import EmployeeDataTable from './pages/employees/crud/list/Employees';
-import StoresDataTable from './pages/stores/crud/list/stores';
+import StoresDataTable from './pages/stores/crud/list/Stores';
+import Register from './pages/account/register/Register';
+import Account from './pages/account/account/Account';
+import Login from './pages/account/login/Login';
+import {AuthContextProvider} from './context/AuthContext';
+import {AccountRoutes} from './pages/account';
+import ProtectedRoute from './pages/account/ProtectedRoute';
 
 export default function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -29,24 +35,37 @@ export default function App() {
 
   return (
     // <BrowserRouter key={Math.random()}>
-    <div className="h-screen w-full">
+    <div className="w-full h-full">
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Navbar />
           {/* <Sidebar /> */}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/users" element={<UsersList />} />
-            <Route path="/articulos" element={<ItemsDataTable />} />
-            <Route path="/articulos/:_id" element={<ItemDetail />} />
-            <Route path="/articulos/:_id/edit" element={<ItemDetailEdit />} />
-            <Route path="/empleados" element={<EmployeeDataTable />} />
-            {/* <Route path="/empleados/:_id" element={<EmployeeDetail />} />
+          <AuthContextProvider>
+            <Routes>
+              {/* <Route path="/" element={<Home />} /> */}
+              {/* <Route path="/cuenta/" element={<AccountRoutes />} /> */}
+              <Route path="/" element={<Login />} />
+              <Route path="/cuenta/registro" element={<Register />} />
+              <Route
+                path="/cuenta"
+                element={
+                  <ProtectedRoute>
+                    <Account />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/users" element={<UsersList />} />
+              <Route path="/articulos" element={<ItemsDataTable />} />
+              <Route path="/articulos/:_id" element={<ItemDetail />} />
+              <Route path="/articulos/:_id/edit" element={<ItemEdit />} />
+              <Route path="/empleados" element={<EmployeeDataTable />} />
+              {/* <Route path="/empleados/:_id" element={<EmployeeDetail />} />
             <Route path="/empleados/:_id/edit" element={<EmployeeDetailEdit />} /> */}
-            <Route path="/bodegas" element={<StoresDataTable />} />
-            {/* <Route path="/store/:_id" element={<StoreDetail />} />
+              <Route path="/bodegas" element={<StoresDataTable />} />
+              {/* <Route path="/store/:_id" element={<StoreDetail />} />
             <Route path="/store/:_id/edit" element={<StoreDetailEdit />} /> */}
-          </Routes>
+            </Routes>
+          </AuthContextProvider>
         </BrowserRouter>
       </ThemeProvider>
     </div>

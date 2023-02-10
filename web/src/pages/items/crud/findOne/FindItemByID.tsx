@@ -26,7 +26,7 @@ type ItemData = {
   item: Item;
 };
 
-export default function FindItemByID({_id}: Params) {
+export default function FindItemByID(_id: string | undefined) {
   type ItemsQueryProps = {
     data?: ItemData;
     loading: boolean;
@@ -35,7 +35,7 @@ export default function FindItemByID({_id}: Params) {
 
   const {data, loading, error}: ItemsQueryProps = useQuery<
     ItemData,
-    {input: Record<string, unknown>}
+    {input: Params}
   >(FIND_ONE_ITEM, {
     variables: {
       input: {_id},

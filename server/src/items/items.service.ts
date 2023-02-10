@@ -55,7 +55,7 @@ export class ItemsService {
     return await this.itemModel.find().lean();
   }
 
-  async findOne(input) {
+  async findBySerialNumber(input) {
     const item = await this.itemModel
       .findOne({ serialNumber: input }, function (err, docs) {
         if (err) {
