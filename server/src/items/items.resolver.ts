@@ -14,12 +14,15 @@ import { UsersService } from 'src/users/users.service';
 import { FindItemInput } from './dto/find-item.input';
 import { UpdateItemInput } from './dto/update-item.input';
 import { AddHistoryInput } from './dto/add-history.input';
+import { History } from 'src/histories/entities/history.entity';
+import { HistoryService } from 'src/histories/history.service';
 
 @Resolver(() => Item)
 export class ItemsResolver {
   constructor(
     private itemsService: ItemsService,
     private usersService: UsersService,
+    private historyService: HistoryService,
   ) {}
 
   @Mutation(() => Item)
@@ -34,11 +37,11 @@ export class ItemsResolver {
     return this.itemsService.update(item);
   }
 
-  @Mutation(() => Item)
-  async addHistory(@Args('input') history: AddHistoryInput) {
-    console.log(history);
-    return this.itemsService.addHistory(history);
-  }
+  // @Mutation(() => Item)
+  // async addHistory(@Args('input') history: AddHistoryInput) {
+  //   console.log(history);
+  //   return this.itemsService.addHistory(history);
+  // }
 
   @Query(() => [Item], { name: 'items' })
   async findAll() {
@@ -58,13 +61,18 @@ export class ItemsResolver {
       );
   }
 
+  @Mutation(() => Item)
+  async deleteItem(@Args('_id') _id: string) {
+    return await this.itemsService.delete(_id);
+  }
+
   @ResolveField(() => User)
   async createdBy(@Parent() parent: Item) {
     return this.usersService.findById(parent.createdBy);
   }
 
-  @Mutation(() => Item)
-  async deleteItem(@Args('_id') _id: string) {
-    return await this.itemsService.delete(_id);
+  @ResolveField(() => History)
+  async itemHistory(@Parent() parent: Item) {
+    return this.historyService.findByItemId(parent._id);
   }
 }

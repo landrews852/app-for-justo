@@ -60,7 +60,7 @@ export class EmployeesService {
   //   return `This action updates a #${id} employee`;
   // }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} employee`;
-  // }
+  async delete(_id: string) {
+    return await this.employeeModel.findByIdAndDelete(_id);
+  }
 }

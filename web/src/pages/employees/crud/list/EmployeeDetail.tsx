@@ -1,32 +1,30 @@
 /* eslint-disable @typescript-eslint/indent */
 
 import {useState} from 'react';
-import {Link, Params, useNavigate, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
-import deleteItem from '../delete/deleteItem';
-import findItemByID from '../findOne/FindItemByID';
-import AddHistory from '../update/addHistory';
+import deleteEmployee from '../delete/deleteEmployee';
 import type {GridColDef, GridRowsProp} from '@mui/x-data-grid';
 import {DataGrid, GridValueGetterParams} from '@mui/x-data-grid';
-import type {Item} from '../../../../constant/constant';
+import type {Employee, History} from '../../../../constant/constant';
+import FindEmployeeByID from '../findOne/FindEmployeeById';
 
 const columns: GridColDef[] = [
-  {field: 'id', headerName: 'ID', width: 130},
-  {field: 'relationName', headerName: 'Nombre de relación', width: 130},
-  {field: 'relationId', headerName: 'ID Relación', width: 130},
-  {field: 'ownerType', headerName: 'Relación', width: 90},
-  {field: 'date', headerName: 'Fecha', width: 1200},
+  {field: 'id', headerName: 'ID', width: 130, hide: true},
+  {field: 'itemId', headerName: 'ID artículo', width: 130},
+  {field: 'itemName', headerName: 'Nombre del artículo', width: 145},
+  {field: 'date', headerName: 'Fecha ingreso', width: 130},
 ];
 
-export default function ItemDetail() {
+export default function EmployeeDetail() {
   const navigate = useNavigate();
   const {_id} = useParams();
   const [problem, setProblem] = useState<string>('');
-  const {handleDelete, error: deleteError} = deleteItem({_id});
+  const {handleDelete, error: deleteError} = deleteEmployee({_id});
 
-  const itemData: Item = findItemByID(_id);
+  const employeeData: Employee = FindEmployeeByID(_id);
 
-  console.log(itemData);
+  console.log(employeeData);
 
   const editBtnProps: BtnProps = {
     variant: 'edit',
@@ -53,12 +51,11 @@ export default function ItemDetail() {
     variant: 'delete',
   };
 
-  const rows = itemData?.itemHistory?.length
-    ? itemData?.itemHistory?.map((history) => ({
+  const rows = employeeData?.employeeHistory?.length
+    ? employeeData?.employeeHistory?.map((history: History) => ({
         id: history?._id,
-        relationId: history?.relationId,
-        relationName: history?.relationName,
-        ownerType: history?.ownerType,
+        itemId: history?.item?._id,
+        itemName: history?.item?.name,
         date: history?.date,
       }))
     : false;
@@ -74,7 +71,7 @@ export default function ItemDetail() {
             navigate(-1);
           }}
         />
-        <Link to={'/articulos/' + itemData._id + '/edit'} className="">
+        <Link to={'/empleados/' + employeeData._id + '/edit'} className="">
           <Button {...editBtnProps} />
         </Link>
         {_id ? <Button {...deleteBtnProps} /> : null}
@@ -82,22 +79,17 @@ export default function ItemDetail() {
       <div className="flex flex-col items-center justify-center m-5 text-center">
         <div className="flex flex-row items-center">
           <h1 className="font-bold text-3xl text-sky-500 my-5 ml-4">
-            {itemData?.name}
+            {employeeData?.name}
           </h1>
         </div>
-        <div className="rounded-sm bg-gray-200 dark:bg-slate-800 p-6 w-[90%] text-left">
+        <div className="rounded-sm bg-gray-200 dark:bg-slate-800 p-6 w-[90%] text-left mb-12">
           <p className="mb-2">
-            <b className="ml-[-4px]">Modelo:</b> {itemData?.model}
+            <b className="ml-[-4px]">Correo:</b> {employeeData?.email}
           </p>
           <p>
-            <b className="ml-[-4px]">Número de serie:</b>{' '}
-            {itemData?.serialNumber}
+            <b className="ml-[-4px]">Cargo:</b> {employeeData?.position}
           </p>
         </div>
-        <div className="m-6">
-          <AddHistory />
-        </div>
-        {problem && <p>{problem}</p>}
         <div className="w-full h-[500px] mb-10">
           <DataGrid
             rows={rows}

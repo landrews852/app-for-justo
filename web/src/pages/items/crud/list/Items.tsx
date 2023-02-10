@@ -17,12 +17,14 @@ const ITEMS = gql`
       name
       model
       serialNumber
-      itemHistory {
-        itemHistoryId
-        relationId
-        ownerType
-        date
-      }
+      # itemHistory {
+      #   _id
+      #   relationId
+      #   itemId
+      #   itemName
+      #   ownerType
+      #   date
+      # }
       createdBy {
         username
       }

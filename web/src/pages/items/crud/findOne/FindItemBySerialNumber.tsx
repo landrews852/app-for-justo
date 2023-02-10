@@ -37,26 +37,9 @@ export default function FindItemBySerialNumber(props: string) {
     },
   });
 
-  // if (loading) {
-  //   return (
-  //     <p className="w-full text-center my-10 text-3xl font-bold">Loading...</p>
-  //   );
-  // }
-
-  // if (error) {
-  //   return <pre>{error.message}</pre>;
-  // }
   if (data) {
     return data?.item;
   }
 
   return false;
-
-  //   Return (
-  //     <div className="container">
-  //       <p>{data?.item.name}</p>
-  //       <p>{data?.item.model}</p>
-  //       <p>{data?.item.serialNumber}</p>
-  //     </div>
-  //   );
 }

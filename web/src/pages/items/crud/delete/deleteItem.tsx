@@ -25,7 +25,7 @@ const DELETE_ITEM = gql`
 export default function deleteItem({_id}: Record<string, unknown>) {
   const [deleteItem, {error}] = useMutation(DELETE_ITEM, {
     variables: {_id},
-    refetchQueries: [{query: ITEMS}, 'Items'],
+    refetchQueries: [{query: ITEMS}],
   });
 
   const handleDelete: () => void = async () => {

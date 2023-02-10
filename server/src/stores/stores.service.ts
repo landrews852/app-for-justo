@@ -55,4 +55,8 @@ export class StoresService {
     if (store) return store;
     else return Error("There's a problem with your search");
   }
+
+  async delete(_id: string) {
+    return await this.storeModel.findByIdAndDelete(_id);
+  }
 }

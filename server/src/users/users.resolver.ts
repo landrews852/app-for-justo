@@ -21,11 +21,6 @@ export class UsersResolver {
     private itemsService: ItemsService,
   ) {}
 
-  // @Mutation(() => User)
-  // async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-  //   return this.usersService.createUser(createUserInput);
-  // }
-
   @Mutation(() => User)
   async createUser(@Args('input') user: CreateUserInput) {
     return this.usersService.createUser(user);
@@ -36,11 +31,6 @@ export class UsersResolver {
     return this.usersService.findAll();
   }
 
-  // @Query(() => User, { name: 'user' })
-  // async findOne(@Args('_id', { type: () => Int }) _id: number) {
-  //   return this.usersService.findById(_id);
-  // }
-
   @Query(() => User)
   async user(@Args('input') { _id }: FindUserInput) {
     return this.usersService.findById(_id);
@@ -50,14 +40,4 @@ export class UsersResolver {
   async itemsCreated(@Parent() parent: User) {
     return this.itemsService.findUserById(parent._id);
   }
-
-  // @Mutation(() => User)
-  // updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-  //   return this.usersService.update(updateUserInput._id, updateUserInput);
-  // }
-
-  // @Mutation(() => User)
-  // removeUser(@Args('id', { type: () => Int }) id: number) {
-  //   return this.usersService.remove(id);
-  // }
 }

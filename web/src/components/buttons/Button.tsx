@@ -10,9 +10,10 @@ type BtnProps = {
   types?: 'button' | 'submit' | 'reset' | undefined;
   text?: any;
   className?: string;
-  variant?: string;
+  variant?: 'edit' | 'detail' | 'refresh' | 'goBack' | 'delete';
   fontSize?: 'small' | 'medium' | 'inherit' | 'large' | undefined;
   href?: any;
+  disabled?: boolean | undefined;
 };
 
 const Button: any = ({
@@ -23,6 +24,7 @@ const Button: any = ({
   variant,
   fontSize,
   href,
+  disabled,
 }: BtnProps) => {
   if (!variant) {
     const style = () => {
@@ -30,11 +32,16 @@ const Button: any = ({
         return className;
       }
 
-      return 'm-2 mt-8 focus:outline-none';
+      return 'm-2 mt-8 focus:outline-none disabled:bg-gray-500 disabled:cursor-not-allowed';
     };
 
     return (
-      <button onClick={onClick} className={style()} type={types}>
+      <button
+        onClick={onClick}
+        className={style()}
+        type={types}
+        disabled={disabled}
+      >
         {text}
       </button>
     );

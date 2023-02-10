@@ -7,9 +7,12 @@ import {useParams} from 'react-router-dom';
 import moment from 'moment';
 
 const ADD_HISTORY = gql`
-  mutation addHistory($input: AddHistoryInput!) {
-    addHistory(input: $input) {
+  mutation createHistory($input: CreateHistoryInput!) {
+    createHistory(input: $input) {
       _id
+      item {
+        _id
+      }
       relationId
       relationName
       ownerType
@@ -87,8 +90,8 @@ const ItemHistoryForm: React.FC = () => {
     void fetchData();
   }, [ownerType, client]);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     const formattedDate = moment(date).isValid()
       ? moment(date).format('DD-MM-YYYY')
       : null;
@@ -101,7 +104,7 @@ const ItemHistoryForm: React.FC = () => {
     await addHistory({
       variables: {
         input: {
-          _id,
+          item: _id,
           relationId,
           relationName,
           ownerType,
@@ -161,7 +164,6 @@ const ItemHistoryForm: React.FC = () => {
         value={relationId}
         onChange={(e) => {
           setRelationId(e.target.value);
-          set;
         }}
         className="mx-auto mt-4 py-1 px-8 active:outline-none"
         disabled={!ownerType}

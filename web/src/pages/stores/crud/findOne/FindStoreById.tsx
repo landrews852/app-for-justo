@@ -2,19 +2,19 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {useQuery, gql} from '@apollo/client';
 import type {Params} from 'react-router-dom';
-import type {Item} from '../../../../constant/constant';
+import type {Store} from '../../../../constant/constant';
 
-const FIND_ONE_ITEM = gql`
-  query item($input: FindItemInput!) {
-    item(input: $input) {
+const FIND_ONE_STORE = gql`
+  query store($input: FindStoreInput!) {
+    store(input: $input) {
       _id
       name
-      model
-      serialNumber
-      itemHistory {
+      location
+      storeHistory {
         _id
         item {
           _id
+          name
         }
         relationId
         relationName
@@ -25,21 +25,21 @@ const FIND_ONE_ITEM = gql`
   }
 `;
 
-type ItemData = {
-  item: Item;
+type StoreData = {
+  store: Store;
 };
 
-export default function FindItemByID(_id: string | undefined) {
-  type ItemsQueryProps = {
-    data?: ItemData;
+export default function FindStoreByID(_id: string | undefined) {
+  type StoreQueryProps = {
+    data?: StoreData;
     loading: boolean;
     error?: any;
   };
 
-  const {data, loading, error}: ItemsQueryProps = useQuery<
-    ItemData,
+  const {data, loading, error}: StoreQueryProps = useQuery<
+    StoreData,
     {input: Params}
-  >(FIND_ONE_ITEM, {
+  >(FIND_ONE_STORE, {
     variables: {
       input: {_id},
     },
@@ -55,5 +55,5 @@ export default function FindItemByID(_id: string | undefined) {
     return <pre>{error.message}</pre>;
   }
 
-  return data?.item;
+  return data?.store;
 }

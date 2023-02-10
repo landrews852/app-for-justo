@@ -15,17 +15,54 @@ export class HistoryService {
     return await this.historyModel.create(history);
   }
 
-  async update(_id: string, history: UpdateHistoryInput) {
-    return await this.historyModel.updateOne(history);
+  async update(history: UpdateHistoryInput) {
+    return await this.historyModel.findByIdAndUpdate(
+      history._id,
+      {
+        $set: {
+          item: history.item,
+          relationId: history.relationId,
+          relationName: history.relationName,
+          ownerType: history.ownerType,
+          date: history.date,
+        },
+      },
+      { new: true },
+    );
   }
 
   async findAll() {
     return this.historyModel.find().lean();
   }
 
+  async findByRelationId(input) {
+    const history = await this.historyModel
+      .find({ relationId: input }, function (err, docs) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log('Result: ', docs);
+          return docs;
+        }
+      })
+      .lean()
+      .clone();
+
+    if (history) return history;
+    else return Error("There's a problem with your search");
+  }
+
   async findById(input: string) {
     const history = this.historyModel.findById(input);
     if (history) return history;
     else return Error("There's a problem with your search");
+  }
+
+  async delete(_id: string) {
+    return await this.historyModel.findByIdAndDelete(_id);
+  }
+
+  async findByItemId(itemId: string) {
+    return await this.historyModel.find({ item: itemId });
   }
 }
