@@ -24,7 +24,7 @@ const Account = () => {
   };
 
   return (
-    <div>
+    <div className="m-8">
       <h1>Tu cuenta</h1>
       <p>Correo del usuario: {user?.email}</p>
       <Button

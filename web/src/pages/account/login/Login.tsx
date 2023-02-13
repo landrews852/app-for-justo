@@ -11,6 +11,7 @@ import {useState} from 'react';
 import {Button} from '../../../components/buttons/Button';
 import {Link, useNavigate} from 'react-router-dom';
 import {UserAuth} from '../../../context/AuthContext';
+import {unlink} from '@firebase/auth';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -21,15 +22,27 @@ const Login = () => {
 
   const {login} = UserAuth();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: Event) => {
     e.preventDefault();
     setError('');
     try {
       await login(email, password);
-      navigate('/cuenta');
+      navigate('/');
       console.log('Has ingresado como', email);
-    } catch (error) {
-      setError(error.message);
+    } catch (error: unknown) {
+      switch (error.code) {
+        case 'auth/invalid-email':
+          setError('El correo electrónico es inválido');
+          break;
+        case 'auth/user-not-found':
+          setError('El usuario no fue encontrado');
+          break;
+        case 'auth/wrong-password':
+          setError('La contraseña es incorrecta');
+          break;
+        default:
+          setError('Ha ocurrido un error, por favor inténtalo de nuevo');
+      }
     }
   };
 
@@ -42,15 +55,17 @@ const Login = () => {
         <h1 className="text-2xl font-bold py-4">Ingresa a tu cuenta</h1>
         <p className="mb-4">
           ¿No tienes una cuenta?{' '}
-          <Link to="/cuenta/registro" className="underline">
+          <Link to="/registro" className="underline">
             Regístrate aquí.
           </Link>
         </p>
+        {error && <p className="text-red-400 text-center">{error}</p>}
         <div className="w-full my-4">
-          <p>Nombre de usuario / Correo</p>
+          <p>Correo</p>
           <input
             className="w-full"
             type="email"
+            placeholder="ejemplo@getjusto.com"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -62,6 +77,7 @@ const Login = () => {
           <input
             className="w-full"
             type="password"
+            placeholder="*********"
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
@@ -69,7 +85,6 @@ const Login = () => {
           />
         </div>
         <Button text="Ingresar" className="my-8 focus:outline-none" />
-        {error && <p>{error}</p>}
       </form>
     </>
   );

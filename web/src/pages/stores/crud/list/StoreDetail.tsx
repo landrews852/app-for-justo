@@ -1,32 +1,32 @@
 /* eslint-disable @typescript-eslint/indent */
 
 import {useState} from 'react';
-import {Link, Params, useNavigate, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {Button, type BtnProps} from '../../../../components/buttons/Button';
-import deleteItem from '../delete/deleteItem';
-import findItemByID from '../findOne/FindItemByID';
-import AddHistory from '../update/addHistory';
+import deleteStore from '../delete/deleteStore';
+// import findItemByID from '../findOne/FindItemByID';
+// import AddHistory from '../update/addHistory';
 import type {GridColDef, GridRowsProp} from '@mui/x-data-grid';
 import {DataGrid, GridValueGetterParams} from '@mui/x-data-grid';
-import type {Item} from '../../../../constant/constant';
+import type {History, Store} from '../../../../constant/constant';
+import FindStoreByID from '../findOne/FindStoreById';
 
 const columns: GridColDef[] = [
-  {field: 'id', headerName: 'ID', width: 130},
-  {field: 'relationName', headerName: 'Nombre de relación', width: 150},
-  {field: 'relationId', headerName: 'ID Relación', width: 150},
-  {field: 'ownerType', headerName: 'Tipo relación', width: 150},
-  {field: 'date', headerName: 'Fecha', width: 150},
+  {field: 'id', headerName: 'ID', width: 130, hide: true},
+  {field: 'itemId', headerName: 'ID artículo', width: 130},
+  {field: 'itemName', headerName: 'Nombre del artículo', width: 145},
+  {field: 'date', headerName: 'Fecha ingreso', width: 1200},
 ];
 
-export default function ItemDetail() {
+export default function StoreDetail() {
   const navigate = useNavigate();
   const {_id} = useParams();
   const [problem, setProblem] = useState<string>('');
-  const {handleDelete, error: deleteError} = deleteItem({_id});
+  const {handleDelete, error: deleteError} = deleteStore({_id});
 
-  const itemData: Item = findItemByID(_id);
+  const storeData: Store = FindStoreByID(_id);
 
-  console.log(itemData);
+  console.log(storeData);
 
   const editBtnProps: BtnProps = {
     variant: 'edit',
@@ -53,12 +53,11 @@ export default function ItemDetail() {
     variant: 'delete',
   };
 
-  const rows = itemData?.itemHistory?.length
-    ? itemData?.itemHistory?.map((history) => ({
+  const rows = storeData?.storeHistory?.length
+    ? storeData?.storeHistory?.map((history: History) => ({
         id: history?._id,
-        relationId: history?.relationId,
-        relationName: history?.relationName,
-        ownerType: history?.ownerType,
+        itemId: history?.item?._id,
+        itemName: history?.item?.name,
         date: history?.date,
       }))
     : false;
@@ -74,7 +73,7 @@ export default function ItemDetail() {
             navigate(-1);
           }}
         />
-        <Link to={'/articulos/' + itemData._id + '/edit'} className="">
+        <Link to={'/bodegas/' + storeData._id + '/edit'} className="">
           <Button {...editBtnProps} />
         </Link>
         {_id ? <Button {...deleteBtnProps} /> : null}
@@ -82,22 +81,17 @@ export default function ItemDetail() {
       <div className="flex flex-col items-center justify-center m-5 text-center">
         <div className="flex flex-row items-center">
           <h1 className="font-bold text-3xl text-sky-500 my-5 ml-4">
-            {itemData?.name}
+            {storeData?.name}
           </h1>
         </div>
-        <div className="rounded-sm bg-gray-200 dark:bg-slate-800 p-6 w-[90%] text-left">
+        <div className="rounded-sm bg-gray-200 dark:bg-slate-800 p-6 w-[90%] text-left mb-12">
           <p className="mb-2">
-            <b className="ml-[-4px]">Modelo:</b> {itemData?.model}
+            <b className="ml-[-4px]">ID bodega:</b> {storeData?._id}
           </p>
           <p>
-            <b className="ml-[-4px]">Número de serie:</b>{' '}
-            {itemData?.serialNumber}
+            <b className="ml-[-4px]">Ubicación:</b> {storeData?.location}
           </p>
         </div>
-        <div className="m-6">
-          <AddHistory />
-        </div>
-        {problem && <p>{problem}</p>}
         <div className="w-full h-[500px] mb-10">
           <DataGrid
             rows={rows}

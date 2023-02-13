@@ -2,7 +2,6 @@ import { ID, ObjectType, Field } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { History } from 'src/histories/entities/history.entity';
-import { StoreHistory } from './types';
 
 export type StoreDocument = Store & mongoose.Document;
 
@@ -21,12 +20,12 @@ export class Store {
   location: string;
 
   @Prop({
-    type: StoreHistory,
-    ref: 'StoreHistory',
+    type: Array<mongoose.Schema.Types.ObjectId>,
+    ref: History.name,
     default: [],
   })
-  @Field(() => [StoreHistory])
-  history: StoreHistory;
+  @Field(() => [History], { nullable: true })
+  storeHistory?: History[];
 }
 
 export const StoreSchema = SchemaFactory.createForClass(Store);

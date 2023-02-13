@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { AddHistoryInput } from './dto/add-history.input';
 import { CreateItemInput } from './dto/create-item.input';
 import { UpdateItemInput } from './dto/update-item.input';
 import { Item, ItemDocument } from './entities/item.entity';
-import { v1 as uuidv1 } from 'uuid';
+// import { AddHistoryInput } from './dto/add-history.input';
+// import { v1 as uuidv1 } from 'uuid';
 
 @Injectable()
 export class ItemsService {
@@ -30,26 +30,26 @@ export class ItemsService {
     );
   }
 
-  async addHistory(history: AddHistoryInput) {
-    const { relationId, relationName, ownerType, date } = history;
-    const id = uuidv1();
+  // async addHistory(history: AddHistoryInput) {
+  //   const { relationId, relationName, ownerType, date } = history;
+  //   const id = uuidv1();
 
-    return await this.itemModel.findByIdAndUpdate(
-      history._id,
-      {
-        $push: {
-          itemHistory: {
-            itemHistoryId: id,
-            relationId,
-            relationName,
-            ownerType,
-            date,
-          },
-        },
-      },
-      { new: true },
-    );
-  }
+  //   return await this.itemModel.findByIdAndUpdate(
+  //     history._id,
+  //     {
+  //       $push: {
+  //         itemHistory: {
+  //           itemHistoryId: id,
+  //           relationId,
+  //           relationName,
+  //           ownerType,
+  //           date,
+  //         },
+  //       },
+  //     },
+  //     { new: true },
+  //   );
+  // }
 
   async findAll() {
     return await this.itemModel.find().lean();
@@ -78,13 +78,9 @@ export class ItemsService {
     else return Error("There's a problem with your search");
   }
 
-  async findUserById(userId: any) {
+  async findUserById(userId: string) {
     return await this.itemModel.find({ createdBy: userId });
   }
-
-  // async findWhereIsItById(whereIsIt: any) {
-  //   return await this.itemModel.find({ whereIsIt: whereIsIt });
-  // }
 
   async delete(_id: string) {
     return await this.itemModel.findByIdAndDelete(_id);

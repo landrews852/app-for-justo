@@ -1,7 +1,8 @@
-export type ItemHistory = {
-  itemHistoryId?: string;
-  relationId?: string;
+export type History = {
+  _id?: string;
+  item?: {_id?: string; name: string; serialNumber: string};
   relationName?: string;
+  relationId?: string;
   ownerType?: string;
   date?: string;
 };
@@ -11,7 +12,7 @@ export type Item = {
   name?: string;
   model?: string;
   serialNumber?: string;
-  itemHistory?: ItemHistory[];
+  itemHistory?: History[];
   createdBy?: {username: string};
 };
 
@@ -25,17 +26,18 @@ export type User = {
 
 export type Employee = {
   _id?: string;
-  name?: string;
   email?: string;
+  name?: string;
   position?: string;
-  itemsInPossession?: any;
+  employeeHistory?: History[];
 };
 
 export type Store = {
   _id?: string;
   name?: string;
   location?: string;
+  storeHistory?: History[];
 };
 
 export const successMsgCss = 'text-center font-medium text-green-600';
-export const errorMsgCss = 'text-center font-medium text-red-500';
+export const errorMsgCss = 'text-center text-red-500';

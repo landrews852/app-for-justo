@@ -1,8 +1,8 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class FindEmployeeInput {
-  @Field(() => Int, { nullable: true })
+  @Field(() => ID, { nullable: true })
   _id: string;
 
   @Field({ nullable: true })

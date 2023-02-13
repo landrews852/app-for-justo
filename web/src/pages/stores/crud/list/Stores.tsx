@@ -137,7 +137,7 @@ export default function StoresDataTable() {
   }
 
   return (
-    <div className="m-6 items-center flex flex-col pb-4 max-w-full h-full">
+    <div className="m-6 items-center flex flex-col pb-4 max-w-full h-screen">
       <SearchBar
         placeholder="Buscar bodega"
         className="self-end"

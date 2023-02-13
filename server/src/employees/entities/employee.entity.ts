@@ -4,6 +4,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { User } from 'src/users/entities/user.entity';
 import { EmployeeHistory } from './types';
+import { History } from 'src/histories/entities/history.entity';
 
 export type EmployeeDocument = Employee & mongoose.Document;
 
@@ -26,20 +27,12 @@ export class Employee {
   position: string;
 
   @Prop({
-    type: EmployeeHistory,
-    ref: 'EmployeeHistory',
+    type: Array<mongoose.Schema.Types.ObjectId>,
+    ref: History.name,
     default: [],
   })
-  @Field(() => [EmployeeHistory])
-  employeeHistory: EmployeeHistory[];
-
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Item' })
-  @Field(() => [Item])
-  itemsInPossession?: Item[];
-
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  @Field(() => User, { nullable: true })
-  createdBy: User | string;
+  @Field(() => [History])
+  employeeHistory: History[];
 }
 
 export const EmployeeSchema = SchemaFactory.createForClass(Employee);

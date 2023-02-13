@@ -30,7 +30,7 @@ const EMPLOYEES = gql`
   }
 `;
 
-export default function DataTable() {
+export default function EmployeesDataTable() {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [pageSize, setPageSize] = useState<number>(10);
   const [page, setPage] = useState(0);
@@ -149,7 +149,7 @@ export default function DataTable() {
   }
 
   return (
-    <div className="m-6 items-center flex flex-col pb-4 max-w-full h-full">
+    <div className="m-6 items-center flex flex-col pb-4 max-full h-screen">
       <SearchBar
         placeholder="Buscar empleados"
         className="self-end"

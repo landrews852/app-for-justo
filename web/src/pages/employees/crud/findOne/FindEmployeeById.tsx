@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {useQuery, gql} from '@apollo/client';
+import type {Params} from 'react-router-dom';
 import type {Employee} from '../../../../constant/constant';
 
 const FIND_ONE_EMPLOYEE = gql`
@@ -26,26 +27,23 @@ const FIND_ONE_EMPLOYEE = gql`
   }
 `;
 
-type Email = {email?: string};
 type EmployeeData = {
   employee: Employee;
 };
 
-export default function FindEmployeeByEmail(email: string) {
-  type ItemsQueryProps = {
+export default function FindEmployeeByID(_id: string | undefined) {
+  type EmployeeQueryProps = {
     data?: EmployeeData;
     loading: boolean;
     error?: any;
   };
 
-  const {data, loading, error}: ItemsQueryProps = useQuery<
+  const {data, loading, error}: EmployeeQueryProps = useQuery<
     EmployeeData,
-    {input: Email}
+    {input: Params}
   >(FIND_ONE_EMPLOYEE, {
     variables: {
-      input: {
-        email,
-      },
+      input: {_id},
     },
   });
 
