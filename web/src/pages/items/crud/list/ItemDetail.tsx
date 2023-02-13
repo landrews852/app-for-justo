@@ -12,10 +12,10 @@ import type {Item} from '../../../../constant/constant';
 
 const columns: GridColDef[] = [
   {field: 'id', headerName: 'ID', width: 130},
-  {field: 'relationName', headerName: 'Nombre de relación', width: 130},
-  {field: 'relationId', headerName: 'ID Relación', width: 130},
-  {field: 'ownerType', headerName: 'Relación', width: 90},
-  {field: 'date', headerName: 'Fecha', width: 1200},
+  {field: 'relationName', headerName: 'Nombre de relación', width: 150},
+  {field: 'relationId', headerName: 'ID Relación', width: 150},
+  {field: 'ownerType', headerName: 'Tipo relación', width: 150},
+  {field: 'date', headerName: 'Fecha', width: 150},
 ];
 
 export default function ItemDetail() {
@@ -103,8 +103,7 @@ export default function ItemDetail() {
             rows={rows}
             columns={columns}
             pageSize={5}
-            rowsPerPageOptions={[5]}
-            checkboxSelection
+            rowsPerPageOptions={[5, 10, 50]}
             initialState={{
               sorting: {
                 sortModel: [{field: 'date', sort: 'desc'}],

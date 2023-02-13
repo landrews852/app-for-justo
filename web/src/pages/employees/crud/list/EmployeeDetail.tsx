@@ -11,9 +11,10 @@ import FindEmployeeByID from '../findOne/FindEmployeeById';
 
 const columns: GridColDef[] = [
   {field: 'id', headerName: 'ID', width: 130, hide: true},
-  {field: 'itemId', headerName: 'ID artículo', width: 130},
-  {field: 'itemName', headerName: 'Nombre del artículo', width: 145},
   {field: 'date', headerName: 'Fecha ingreso', width: 130},
+  {field: 'itemName', headerName: 'Nombre del artículo', width: 145},
+  {field: 'itemSerialNumber', headerName: 'Numero de serie', width: 145},
+  {field: 'itemId', headerName: 'ID artículo', width: 130},
 ];
 
 export default function EmployeeDetail() {
@@ -56,6 +57,7 @@ export default function EmployeeDetail() {
         id: history?._id,
         itemId: history?.item?._id,
         itemName: history?.item?.name,
+        itemSerialNumber: history?.item?.serialNumber,
         date: history?.date,
       }))
     : false;
@@ -95,8 +97,7 @@ export default function EmployeeDetail() {
             rows={rows}
             columns={columns}
             pageSize={5}
-            rowsPerPageOptions={[5]}
-            checkboxSelection
+            rowsPerPageOptions={[5, 10, 50]}
             initialState={{
               sorting: {
                 sortModel: [{field: 'date', sort: 'desc'}],

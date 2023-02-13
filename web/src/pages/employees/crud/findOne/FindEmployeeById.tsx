@@ -16,6 +16,7 @@ const FIND_ONE_EMPLOYEE = gql`
         item {
           _id
           name
+          serialNumber
         }
         relationId
         relationName

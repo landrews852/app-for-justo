@@ -97,8 +97,7 @@ export default function StoreDetail() {
             rows={rows}
             columns={columns}
             pageSize={5}
-            rowsPerPageOptions={[5]}
-            checkboxSelection
+            rowsPerPageOptions={[5, 10, 50]}
             initialState={{
               sorting: {
                 sortModel: [{field: 'date', sort: 'desc'}],

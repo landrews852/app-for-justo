@@ -1,6 +1,6 @@
 export type History = {
   _id?: string;
-  item?: {_id?: string; name: string};
+  item?: {_id?: string; name: string; serialNumber: string};
   relationName?: string;
   relationId?: string;
   ownerType?: string;
@@ -40,4 +40,4 @@ export type Store = {
 };
 
 export const successMsgCss = 'text-center font-medium text-green-600';
-export const errorMsgCss = 'text-center font-medium text-red-500';
+export const errorMsgCss = 'text-center text-red-500';
